@@ -31,8 +31,8 @@ The main banner designs for desktop, tablet, and mobile are completed. The proje
 
 ### 5. Pending Tasks
 
-- [ ] Complete all 10 achievement badges.
-- [ ] Create locked and unlocked badge states.
+- [x] Complete all 10 achievement badges.
+- [x] Create locked and unlocked badge states.
 - [ ] Develop mining animations and interactive states.
 - [ ] Refine the overall design based on feedback.
 - [ ] Complete final prototype testing.
