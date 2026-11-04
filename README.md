@@ -1,84 +1,49 @@
-🎨 VELOOP Rewards — UI/UX Design Project
+## 🚀 Project Progress & Development Updates
 
-A UI/UX design project focused on creating a premium, modern, and engaging rewards experience for the VELOOP Rewards platform, with an emphasis on sophisticated gamification, visual consistency, and user-friendly interactions.
+**Project:** VELOOP Rewards – Mine & Earn
+**Current Stage:** Design Refinement & Prototyping
+**Status:** In Progress
 
-## Design Preview & Prototype
+### 1. Project Overview
 
-**[View Figma Design & Interactive Prototype](https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=59-4&p=f&t=84ukhzKBUWvSVbIv-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=59%3A4&show-proto-sidebar=1)**
+Working on the Mine & Earn feature and a 10-level achievement badge system for VELOOP Rewards. The focus is on creating a premium, engaging, responsive, and user-friendly experience.
 
-## Project Overview
+### 2. Completed Work
 
-The objective of this project is to design the **Mine & Earn** experience for VELOOP Rewards.
+- [x] Desktop Mine & Earn banner design.
+- [x] Desktop interactive prototype.
+- [x] Responsive tablet layout.
+- [x] Responsive mobile layout.
+- [x] Initial visual concepts for Bronze, Silver, and Gold achievement badges.
+- [x] Established the visual direction and colour palette for the badge system.
 
-The design aims to communicate the earning process clearly, help users track their mining progress, highlight accumulated rewards, and create an engaging experience through meaningful visual elements and interactive components.
+### 3. Improvements & Learning
 
-The overall design direction follows a premium, modern, fintech-inspired aesthetic with sophisticated gamification.
+- Improved responsive design and layout consistency.
+- Explored Figma Smart Animate and component variants.
+- Practised metallic effects, gradients, lighting, and visual hierarchy.
+- Improved understanding of micro-interactions and animation principles.
+- Focused on creating a consistent and premium visual language.
 
-🚧 Project Status: In Progress
+### 4. Current Status
 
-<kbd>In Progress</kbd>
+The main banner designs for desktop, tablet, and mobile are completed. The project is currently in the badge design, animation exploration, and prototype refinement stages.
 
-The desktop visual design and interactive prototype have been completed. The tablet and mobile layouts have also been developed.
+### 5. Pending Tasks
 
-The project is currently undergoing continuous refinement, with further work focused on improving visual consistency, responsiveness, interactions, and the overall user experience.
+- [ ] Complete all 10 achievement badges.
+- [ ] Create locked and unlocked badge states.
+- [ ] Develop mining animations and interactive states.
+- [ ] Refine the overall design based on feedback.
+- [ ] Complete final prototype testing.
+- [ ] Prepare developer handoff documentation.
 
-✅ Current Project Progress
+### 🔗 Design & Prototype
 
-- [x] Desktop Mine & Earn banner design
-- [x] Desktop interactive prototype
-- [x] Tablet responsive layout
-- [x] Mobile responsive layout
-- [ ] 10-level achievement badge system
-- [ ] Additional interactive states and animations
-- [ ] Final visual refinements
-- [ ] Final review and developer handoff
+[Figma – VELOOP Rewards Project](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=77-17)
 
-## 🎨 Visual Design Direction
+### 📌 Ongoing Development
 
-The visual direction follows a premium, modern, and fintech-inspired aesthetic, combining deep navy surfaces with elegant metallic gold accents and clean ivory typography.
+The project is being continuously refined to improve visual quality, responsiveness, interactivity, and consistency with the VELOOP Rewards design direction.
 
-**Official Project Color Palette:**
-
-| Color | Hex Code | Usage |
-|---|---|---|
-| Midnight Navy | `#161827` | Primary background |
-| Deep Slate | `#20243A` | Secondary backgrounds and cards |
-| Champagne Gold | `#EFD191` | Premium highlights |
-| Rich Gold | `#B7822A` | Primary gold accents |
-| Antique Gold | `#9B7028` | Darker gold details |
-| Metallic Gold | `#C49A45` | Progress indicators and reward elements |
-| Warm Ivory | `#F5F3ED` | Primary text and light surfaces |
-| Pure White | `#FFFFFF` | High-contrast text and highlights |
-
-The palette maintains a balance between dark premium surfaces and warm metallic accents to create a sophisticated, trustworthy, and reward-focused experience.
-
-## Design Objectives
-
-- Premium and professional visual experience
-- Modern, fintech-inspired interface
-- Sophisticated and meaningful gamification
-- Clear mining progress and reward indicators
-- Engaging earning-related illustrations
-- Responsive layouts across desktop, tablet, and mobile
-- Subtle animations and interactive feedback
-- Consistent visual hierarchy and usability
-
-## Tools & Technologies
-
-- **Figma** — UI design, prototyping, and responsive layouts
-- **GitHub** — Project documentation and progress tracking
-
-## Feedback & Continuous Improvement
-
-This project is an ongoing design process. I am continuously refining the interface, improving responsiveness, and developing the remaining components to deliver a consistent and polished user experience.
-
-Feedback and suggestions are welcome as the project progresses.
-
----
-
-**Project:** VELOOP Rewards  
-**Feature:** Mine & Earn  
-**Category:** UI/UX Design  
-**Design Tool:** Figma  
-**Documentation:** GitHub  
-**Status:** Ongoing Development
+**Project Status: In Progress 🚀**
