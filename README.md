@@ -2,7 +2,7 @@
 
 ## 📌 Project Overview
 
-VELOOP Rewards is a UI/UX design project focus[https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558&p=f&t=Zwaq8twLa4QOxqZT-1&scaling=scale-down-width&content-scaling=fixed&page-id=77%3A17&starting-point-node-id=192%3A1598](https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558\&p=f\&t=Zwaq8twLa4QOxqZT-1\&scaling=scale-down-width\&content-scaling=fixed\&page-id=77%3A17\&starting-point-node-id=192%3A1598)ed on creating an engaging and premium **Mine & Earn** experience. The project includes responsive banner designs, interactive mining experiences, and a 10-level achievement badge progression system.
+VELOOP Rewards is a UI/UX design project focused on creating an engaging and premium **Mine & Earn** experience. The project includes responsive banner designs, interactive mining experiences, and a 10-level achievement badge progression system.
 
 The goal is to create a visually appealing and user-friendly experience that motivates users to earn rewards and unlock achievements.
 
