@@ -58,8 +58,7 @@ The main Mine & Earn banner designs and the 10-level achievement badge system ha
 ## 🔗 Figma Design & Interactive Prototype
 
 **Latest Prototype:**
-[View VELOOP Rewards – Mine & Earn](https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558\&p=f\&t=Zwaq8twLa4QOxqZT-1\&scaling=scale-down-width\&content-scaling=fixed\&page-id=77%3A17\&starting-point-node-id=192%3A1598)
-
+[View VELOOP Rewards – Mine & Earn] https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-1598&p=f&t=Zwaq8twLa4QOxqZT-1&scaling=scale-down-width&content-scaling=fixed&page-id=77%3A17&starting-point-node-id=192%3A1598
 ## 🛠️ Tools Used
 
 - Figma – UI/UX Design and Prototyping
