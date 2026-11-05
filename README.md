@@ -1,49 +1,72 @@
-## 🚀 Project Progress & Development Updates
+# 🚀 VELOOP Rewards – UI/UX Design Project
 
-**Project:** VELOOP Rewards – Mine & Earn
-**Current Stage:** Design Refinement & Prototyping
-**Status:** In Progress
+## 📌 Project Overview
 
-### 1. Project Overview
+VELOOP Rewards is a UI/UX design project focus[https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558&p=f&t=Zwaq8twLa4QOxqZT-1&scaling=scale-down-width&content-scaling=fixed&page-id=77%3A17&starting-point-node-id=192%3A1598](https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558\&p=f\&t=Zwaq8twLa4QOxqZT-1\&scaling=scale-down-width\&content-scaling=fixed\&page-id=77%3A17\&starting-point-node-id=192%3A1598)ed on creating an engaging and premium **Mine & Earn** experience. The project includes responsive banner designs, interactive mining experiences, and a 10-level achievement badge progression system.
 
-Working on the Mine & Earn feature and a 10-level achievement badge system for VELOOP Rewards. The focus is on creating a premium, engaging, responsive, and user-friendly experience.
+The goal is to create a visually appealing and user-friendly experience that motivates users to earn rewards and unlock achievements.
 
-### 2. Completed Work
+## 🎯 Project Objectives
 
-- [x] Desktop Mine & Earn banner design.
+- Design a premium Mine & Earn banner.
+- Create responsive layouts across different screen sizes.
+- Develop an engaging 10-level achievement badge system.
+- Explore interactive animations and micro-interactions.
+- Maintain visual consistency with the VELOOP Rewards theme.
+
+## ✅ Completed Work
+
+### 1. Mine & Earn Banner
+
+- [x] Desktop banner design.
 - [x] Desktop interactive prototype.
-- [x] Responsive tablet layout.
-- [x] Responsive mobile layout.
-- [x] Initial visual concepts for Bronze, Silver, and Gold achievement badges.
-- [x] Established the visual direction and colour palette for the badge system.
+- [x] Tablet responsive layout.
+- [x] Mobile responsive layout.
+- [x] Mining progress and reward information.
+- [x] CTA and visual hierarchy refinement.
 
-### 3. Improvements & Learning
+### 2. Achievement Badge System
+
+- [x] Designed all 10 achievement badge levels.
+- [x] Created Bronze, Silver, Gold, Platinum, Diamond, Emerald, Sapphire, Ruby, Master, and Legend concepts.
+- [x] Developed locked and unlocked badge states.
+- [x] Established a progressive visual style from beginner to premium levels.
+- [x] Explored metallic finishes, gradients, borders, and decorative details.
+
+## 🎨 Design Improvements & Learning
 
 - Improved responsive design and layout consistency.
-- Explored Figma Smart Animate and component variants.
-- Practised metallic effects, gradients, lighting, and visual hierarchy.
-- Improved understanding of micro-interactions and animation principles.
-- Focused on creating a consistent and premium visual language.
+- Explored Figma components, variants, and Smart Animate.
+- Practised metallic effects, gradients, shadows, and lighting.
+- Explored micro-interactions and animation techniques.
+- Improved visual hierarchy and premium UI styling.
 
-### 4. Current Status
+## 🔄 Current Progress
 
-The main banner designs for desktop, tablet, and mobile are completed. The project is currently in the badge design, animation exploration, and prototype refinement stages.
+The main Mine & Earn banner designs and the 10-level achievement badge system have been completed. The project is currently progressing through interactive prototype refinement, mining animation implementation, and final visual improvements.
 
-### 5. Pending Tasks
+## ⏳ Pending Tasks
 
-- [x] Complete all 10 achievement badges.
-- [x] Create locked and unlocked badge states.
-- [ ] Develop mining animations and interactive states.
-- [ ] Refine the overall design based on feedback.
+- [ ] Implement floating coin animations.
+- [ ] Add mining machine movement and glow effects.
+- [ ] Animate the mining progress bar and reward counter.
+- [ ] Implement coins moving towards the wallet.
+- [ ] Refine interactive prototype transitions.
 - [ ] Complete final prototype testing.
 - [ ] Prepare developer handoff documentation.
 
-### 🔗 Design & Prototype
+## 🔗 Figma Design & Interactive Prototype
 
-[Figma – VELOOP Rewards Project](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=77-17)
+**Latest Prototype:**
+[View VELOOP Rewards – Mine & Earn](https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558\&p=f\&t=Zwaq8twLa4QOxqZT-1\&scaling=scale-down-width\&content-scaling=fixed\&page-id=77%3A17\&starting-point-node-id=192%3A1598)
 
-### 📌 Ongoing Development
+## 🛠️ Tools Used
 
-The project is being continuously refined to improve visual quality, responsiveness, interactivity, and consistency with the VELOOP Rewards design direction.
+- Figma – UI/UX Design and Prototyping
+- GitHub – Project Documentation and Progress Tracking
 
-**Project Status: In Progress 🚀**
+## 📊 Project Status
+
+**Status: In Progress 🚀**
+
+The project is undergoing continuous refinement, with a focus on improving animations, interactions, visual consistency, and the overall user experience.
