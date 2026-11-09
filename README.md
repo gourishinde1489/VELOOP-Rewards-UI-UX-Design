@@ -86,10 +86,10 @@ The mining banner design considers multiple screen sizes:
 
 ## 🔗 Project Links
 
-**Figma Design:**  
+**Figma visual banner Design:**  
 https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=0-1
 
-**Interactive Prototype:**  
+**10 Baddges Interactive Prototype:**  
 https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?timeline=keyframe&node-id=192-1598&p=f&scaling=min-zoom&content-scaling=fixed&page-id=77%3A17&starting-point-node-id=192%3A1598
 
 ## 📈 Current Project Status
