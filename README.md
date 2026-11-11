@@ -1,123 +1,49 @@
-# VELOOP Rewards – UI/UX Design Project 🚀
+# VELOOP Rewards – UI/UX Design Project
 
-A modern, premium and gamified UI/UX design concept for **VELOOP Rewards**, focused on creating an engaging rewards experience through mining activities, achievement badges and user progression.
+A premium, gamified rewards platform designed to engage users through mining activities, rewards, and achievement badges.
 
-## 📌 Project Overview
+## Project Overview
 
-VELOOP Rewards is a UI/UX design project focused on making the rewards journey more interactive, motivating and visually engaging.
+VELOOP Rewards focuses on creating an engaging and visually appealing user experience with a modern dark navy and metallic gold design system.
 
-The project explores two major design sections:
+## Key Features
 
-- **Mine & Earn:** A mining banner experience that communicates earning opportunities and progress.
-- **Achievement Badge System:** A 10-level badge collection designed to encourage users to achieve milestones and unlock new rewards.
+- **Mine & Earn:** Interactive mining banner with reward counter and progress tracking.
+- **Responsive Design:** Layouts for mobile, tablet, laptop, desktop, and large screens.
+- **Achievement Badges:** 10 unique 3D-style badges ranging from Bronze to Legend.
+- **Locked & Unlocked States:** Visual achievement progression and reward experiences.
+- **Animations & Interactions:** Mining effects, progress animations, and interactive prototype elements.
 
-## 🎯 Project Objectives
+## Design Highlights
 
-- Create a premium and modern rewards interface.
-- Design an engaging mining and earning experience.
-- Build a progressive achievement badge system.
-- Improve user motivation through gamification.
-- Maintain visual consistency across different screen sizes.
-- Create interactive prototypes to demonstrate the user experience.
+- Premium dark navy and gold color palette.
+- Modern and sophisticated gamified UI.
+- 3D achievement badge illustrations.
+- Consistent typography and reusable design components.
+- Responsive layouts across multiple screen sizes.
 
-## ✨ Key Features
+## Figma Designs & Prototype
 
-### 1. Mine & Earn – Mining Banner
+- [Figma – Visual Banners Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=0-1&p=f&t=oD7IRxqQwsrSssEP-0)
+- [Figma – Badges Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558&t=oD7IRxqQwsrSssEP-0)
 
-- Premium mining-themed visual design.
-- Mining progress indicator.
-- Remaining-time display.
-- Earned reward counter.
-- Interactive CTA concept.
-- Subtle animation and visual effects.
-- Responsive layouts for different screen sizes.
+## Project Status
 
-### 2. Achievement Badge System
+**In Progress** – Finalizing animations, interactive states, responsive refinements, and prototype testing.
 
-A collection of 10 progressive achievement badges:
+## Tools & Technologies
 
-| Level | Badge |
-|:---:|---|
-| 01 | Bronze |
-| 02 | Silver |
-| 03 | Gold |
-| 04 | Platinum |
-| 05 | Diamond |
-| 06 | Emerald |
-| 07 | Sapphire |
-| 08 | Ruby |
-| 09 | Master |
-| 10 | Legend |
+- Figma
+- UI/UX Design
+- Interactive Prototyping
+- Responsive Design
+- GitHub
 
-**Badge design approach:**
-- Premium 3D metallic appearance.
-- Distinctive materials and color themes.
-- Consistent badge shapes and visual language.
-- Locked and unlocked badge states.
-- Achievement unlock popup concept.
-- Visual progression from beginner to legendary status.
+## Designer
 
-## 🎨 Design Direction
-
-The visual identity focuses on:
-
-- Premium and luxurious aesthetics.
-- Dark navy backgrounds with metallic accents.
-- Bronze, gold and gemstone-inspired colors.
-- Sophisticated gamification.
-- Clear typography and visual hierarchy.
-- Subtle lighting, gradients and sparkle effects.
-
-## 📱 Responsive Design
-
-The mining banner design considers multiple screen sizes:
-
-| Device | Target Width |
-|---|---:|
-| Mobile | 320px+ |
-| Tablet | 768px+ |
-| Desktop | 1440px+ |
-
-## 🛠️ Tools & Technologies
-
-- **Figma** – UI design and prototyping
-- **AI-assisted design tools** – Visual concept exploration
-- **GitHub** – Project documentation and version sharing
-
-## 🔗 Project Links
-
-**Figma visual banner Design:**  
-https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=0-1
-
-**10 Baddges Interactive Prototype:**  
-https://www.figma.com/proto/ozZmTU5iiidzOcHj8lcF95/Untitled?timeline=keyframe&node-id=192-1598&p=f&scaling=min-zoom&content-scaling=fixed&page-id=77%3A17&starting-point-node-id=192%3A1598
-
-## 📈 Current Project Status
-
-The project is currently in the design refinement and development-of-prototype stage.
-
-**Completed / worked on:**
-- Mining Banner desktop design.
-- Responsive Mining Banner layouts.
-- Interactive prototype concepts.
-- Achievement Badge visual direction.
-- Bronze badge and achievement unlock popup concept.
-
-**Remaining work:**
-- Organize final Figma components and design documentation.
-- Complete final design handoff and asset exports.
-
-## 🎓 Project Context
-
-This project is part of a UI/UX Designer Internship assignment.
-
-The objective is to explore practical UI/UX design principles, gamification, responsive layouts, visual storytelling and interactive prototyping.
-
-## 👩‍💻 Designer
-
-**Gauri Shinde**  
-UI/UX Designer Intern
+**Gauri Santosh Shinde**  
+UI/UX Design Intern
 
 ---
 
-*Designing experiences that make every achievement feel rewarding.* ✨
+*Designed as part of the VELOOP Rewards UI/UX Internship Project.*
