@@ -2,44 +2,52 @@
 
 A premium, gamified rewards platform designed to engage users through mining activities, rewards, and achievement badges.
 
-## Project Overview
+## 📌 Project Overview
 
-VELOOP Rewards focuses on creating an engaging and visually appealing user experience with a modern dark navy and metallic gold design system.
+VELOOP Rewards is a modern rewards platform focused on creating an engaging and motivating user experience through interactive mining activities, achievement progression, and reward-based gamification.
 
-## Key Features
+The design follows a premium dark navy and metallic gold visual identity to create a sophisticated and trustworthy experience.
+
+## ✨ Key Features
 
 - **Mine & Earn:** Interactive mining banner with reward counter and progress tracking.
-- **Responsive Design:** Layouts for mobile, tablet, laptop, desktop, and large screens.
-- **Achievement Badges:** 10 unique 3D-style badges ranging from Bronze to Legend.
-- **Locked & Unlocked States:** Visual achievement progression and reward experiences.
-- **Animations & Interactions:** Mining effects, progress animations, and interactive prototype elements.
+- **Responsive Design:** Optimized layouts for mobile, tablet, laptop, desktop, and large screens.
+- **Achievement Badges:** 10 unique 3D-style achievement badges, from Bronze to Legend.
+- **Locked & Unlocked States:** Visual badge progression to encourage user engagement.
+- **Animations & Interactions:** Mining effects, animated progress indicators, and interactive prototype elements.
+- **Badge Collection UI:** Structured achievement interface showcasing user progress and milestones.
 
-## Design Highlights
+## 🎨 Design Highlights
 
-- Premium dark navy and gold color palette.
-- Modern and sophisticated gamified UI.
-- 3D achievement badge illustrations.
-- Consistent typography and reusable design components.
+- Premium dark navy and metallic gold color palette.
+- Modern, sophisticated gamified interface.
+- 3D-style achievement illustrations.
+- Consistent typography and reusable components.
 - Responsive layouts across multiple screen sizes.
+- User-focused visual hierarchy and interaction design.
 
-## Figma Designs & Prototype
+## 🔗 Figma Design & Live Project
 
-- [Figma – Visual Banners Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=0-1&p=f&t=oD7IRxqQwsrSssEP-0)
-- [Figma – Badges Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/Untitled?node-id=192-558&t=oD7IRxqQwsrSssEP-0)
+**Figma – Complete Project Design & Live Link**
 
-## Project Status
+[View VELOOP Rewards – Figma Project](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/VELoop-Reward-Project?m=auto&t=cddYyyrQNLuYy0pI-6)
 
-**In Progress** – Finalizing animations, interactive states, responsive refinements, and prototype testing.
-
-## Tools & Technologies
+## 🛠️ Tools & Technologies
 
 - Figma
 - UI/UX Design
+- Wireframing
 - Interactive Prototyping
 - Responsive Design
-- GitHub
+- Visual Design
 
-## Designer
+## 📊 Project Status
+
+**Completed – Ready for Final Submission**
+
+The UI/UX design, responsive layouts, achievement badges, mining banner, and prototype refinements have been completed.
+
+## 👩‍💻 Designer
 
 **Gauri Santosh Shinde**  
 UI/UX Design Intern
