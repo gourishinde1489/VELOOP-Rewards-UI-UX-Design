@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VELOOP Rewards — Mine & EARN (Figma Design to Web App)</title>
-  <meta name="description" content="Exact implementation of the VELOOP Rewards Figma design with Desktop, Tablet, Mobile responsive screens and 10-Level 3D Badge System." />
+  <title>VELOOP Rewards — 10-Level 3D Achievement Badges</title>
+  <meta name="description" content="VELOOP Rewards: 10-Level 3D Achievement Badge System with interactive progression, 3D collectible assets, and real-time milestones." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css" />
-  <link rel="icon" type="image/png" href="assets/coin-3d.png" />
+  <link rel="icon" type="image/png" href="assets/badge-01-bronze.png" />
 </head>
 <body class="bg-dark text-light antialiased">
   <!-- Toast Notification Container -->
@@ -21,40 +21,23 @@
   <!-- Navigation Bar -->
   <header class="app-header">
     <div class="header-inner">
-      <div class="brand" id="brand-home-btn" role="button" tabindex="0">
+      <!-- Brand Logo -->
+      <a href="/" class="brand" id="brand-home-btn">
         <div class="brand-logo" aria-label="VELOOP Logo">
           <span class="logo-v">V</span>
         </div>
         <div class="brand-text">
           <span class="brand-name">VELOOP</span>
-          <span class="brand-tag">Rewards</span>
+          <span class="brand-tag">Badges</span>
         </div>
-      </div>
+      </a>
 
-      <!-- Device Viewport Switcher Toolbar (Direct Figma Screen Inspector) -->
-      <div class="viewport-switcher-bar" aria-label="Figma Screen & Device Mode Selector">
-        <span class="switcher-label">View Screen:</span>
-        <button class="view-btn active" data-view="fluid" title="Auto-responsive fluid layout">
-          <span class="btn-icon">🌐</span>
-          <span>Fluid Responsive</span>
-        </button>
-        <button class="view-btn" data-view="desktop" title="Figma Frame: Desktop — Hero variant 06 (1440x450)">
-          <span class="btn-icon">💻</span>
-          <span>Desktop (1440px)</span>
-        </button>
-        <button class="view-btn" data-view="tablet" title="Figma Frame: Tablet — Responsive reward landing (834x540)">
-          <span class="btn-icon">📱</span>
-          <span>Tablet (834px)</span>
-        </button>
-        <button class="view-btn" data-view="mobile" title="Figma Frame: Mobile — Responsive reward landing (402x874)">
-          <span class="btn-icon">📲</span>
-          <span>Mobile (402px)</span>
-        </button>
-        <button class="view-btn" data-view="badges" title="Figma Page 02: 10-Level 3D Achievement Badge System">
-          <span class="btn-icon">🏆</span>
-          <span>Badges System</span>
-          <span class="badge-count-pill" id="nav-badge-pill">1/10</span>
-        </button>
+      <!-- Quick Milestone Status (Header Center) -->
+      <div class="header-center-info">
+        <span class="header-status-dot"></span>
+        <span class="header-milestone-text">Tier: <strong id="header-highest-badge">Bronze (Level 01)</strong></span>
+        <span class="header-divider">&bull;</span>
+        <span class="header-unlocked-text"><strong id="header-unlocked-pill">1 / 10</strong> Unlocked</span>
       </div>
 
       <!-- Header Actions -->
@@ -64,14 +47,14 @@
           <span id="sound-icon">🔊</span>
         </button>
 
-        <!-- Quests Action Button -->
+        <!-- Instant Quests Button -->
         <button id="btn-open-quests" class="action-btn-pill" title="Open Instant VE Quests">
           <span class="btn-icon">🎯</span>
-          <span>Quests</span>
+          <span>Earn VEs</span>
         </button>
 
         <!-- User Balance Pill -->
-        <div class="balance-pill" id="user-balance-pill" title="Click to inspect VE breakdown">
+        <div class="balance-pill" id="user-balance-pill" title="Click to earn more VEs">
           <img src="assets/coin-3d.png" alt="VE Coin" class="pill-coin" />
           <span class="balance-val" id="total-ves-val">50 VEs</span>
         </div>
@@ -90,456 +73,30 @@
     </div>
   </header>
 
-  <!-- Viewport Stage Wrapper (Centers and scales fixed device frames when active) -->
-  <main class="main-stage" id="main-stage">
-
-    <!-- ==================== 1. FLUID RESPONSIVE VIEW (DEFAULT) ==================== -->
-    <div id="fluid-view-container" class="stage-view active">
-      <div class="fluid-hero-card">
-        
-        <!-- Background Art Container -->
-        <div class="fluid-art-wrapper" aria-hidden="true">
-          <img src="assets/hero-desktop.png" alt="" class="fluid-art-desktop" />
-          <div class="fluid-art-gradient"></div>
-
-          <!-- Floating Coins Accents (Figma Frame 59:4) -->
-          <div class="floating-coins-layer">
-            <div class="floating-coin coin-1" style="--rot: 30.87deg; --top: 50%; --left: 65%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-2" style="--rot: 6.67deg; --top: 36%; --left: 60%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-3" style="--rot: 0deg; --top: 42%; --left: 71%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-4" style="--rot: -30.3deg; --top: 48%; --left: 79%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-5" style="--rot: -30.3deg; --top: 24%; --left: 77%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-6" style="--rot: -30.3deg; --top: 31%; --left: 67%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-7" style="--rot: -30.3deg; --top: 50%; --left: 87%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-8" style="--rot: 19deg; --top: 27%; --left: 50%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-9" style="--rot: -16.36deg; --top: 19%; --left: 58%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-            <div class="floating-coin coin-10" style="--rot: 1.95deg; --top: 36%; --left: 55%;">
-              <img src="assets/coin-3d.png" alt="" />
-            </div>
-          </div>
-        </div>
-
-        <!-- Left Interactive Glassmorphic Control Box (Figma Node 67:12) -->
-        <div class="fluid-controls-box">
-          
-          <!-- Logo & Brand Header -->
-          <div class="card-brand-header">
-            <span class="brand-v-glyph">V</span>
-            <span class="brand-header-text"><strong>VELOOP</strong> Rewards</span>
-          </div>
-
-          <!-- Titles & Description -->
-          <div class="card-titles-block">
-            <h1 class="hero-headline">
-              Mine & <span class="gold-gradient-text">EARN</span>
-            </h1>
-            <p class="hero-desc">
-              Activate your mining session and earn VEs while you stay engaged.
-            </p>
-          </div>
-
-          <!-- Stats Row: Earned Card + Progress Bar -->
-          <div class="card-stats-row">
-            <!-- Earned Card (Figma Node 59:19) -->
-            <div class="earned-pill-card btn-claim-trigger" role="button" tabindex="0" title="Click to claim rewards or inspect balance">
-              <div class="earned-card-content">
-                <div class="coin-avatar-box">
-                  <img src="assets/coin-3d.png" alt="3D Coin" class="coin-img" />
-                  <div class="coin-ambient-glow"></div>
-                </div>
-                <div class="earned-text-meta">
-                  <span class="earned-title">Earned</span>
-                  <span class="earned-amount gold-gradient-text shared-session-earned">+38 VEs</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Progress Block (Figma Node 59:25) -->
-            <div class="progress-col-block">
-              <div class="progress-label-row">
-                <span class="progress-label-text">Mining progress</span>
-              </div>
-
-              <!-- Bar Track & Percent -->
-              <div class="bar-and-pct">
-                <div class="gold-progress-track">
-                  <div class="gold-progress-fill shared-progress-fill" style="width: 5%;">
-                    <div class="gold-glow-tip"></div>
-                  </div>
-                </div>
-                <span class="pct-text shared-progress-text">5%</span>
-              </div>
-
-              <!-- Clock & Countdown -->
-              <div class="timer-row">
-                <svg class="clock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <circle cx="12" cy="12" r="10"></circle>
-                  <polyline points="12 6 12 12 16 14"></polyline>
-                </svg>
-                <span class="timer-countdown shared-timer-text">45:20 Remaining...</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Start Mining Button Container (Figma Node 281:63 / 9:65) -->
-          <div class="mining-btn-row">
-            <button class="btn-start-mining-action shared-mining-btn" aria-pressed="false">
-              <img src="assets/btn-gold.png" alt="" class="btn-gold-slice" aria-hidden="true" />
-              <span class="btn-text shared-btn-label">Start Mining</span>
-            </button>
-            <span class="mining-status-cue shared-status-cue">Session ready. Click to activate passive VE mining.</span>
-          </div>
-
-        </div>
-
-      </div>
-
-      <!-- Holographic Activities Filmstrip (Below hero to eliminate any overlapping) -->
-      <div class="activities-filmstrip-bar">
-        <div class="filmstrip-header">
-          <span class="pulse-indicator"></span>
-          <span class="filmstrip-lead">Boost Your Mining Rate:</span>
-        </div>
-        <div class="filmstrip-cards-track">
-          <button class="activity-chip" data-quest="watch-ads">
-            <div class="chip-icon ad-color">▶<sub>AD</sub></div>
-            <div class="chip-info">
-              <span class="chip-name">Watch Ads &gt;</span>
-              <span class="chip-gain">+5 VEs</span>
-            </div>
-          </button>
-          <button class="activity-chip" data-quest="play-games">
-            <div class="chip-icon game-color">🎮</div>
-            <div class="chip-info">
-              <span class="chip-name">Play Games &gt;</span>
-              <span class="chip-gain">+15 VEs</span>
-            </div>
-          </button>
-          <button class="activity-chip" data-quest="complete-tasks">
-            <div class="chip-icon task-color">📋</div>
-            <div class="chip-info">
-              <span class="chip-name">Complete Tasks &gt;</span>
-              <span class="chip-gain">+25 VEs</span>
-            </div>
-          </button>
-          <button class="activity-chip" data-quest="refer-more">
-            <div class="chip-icon more-color">✦</div>
-            <div class="chip-info">
-              <span class="chip-name">And More &gt;</span>
-              <span class="chip-gain">+50 VEs</span>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <!-- Stats Grid -->
-      <div class="miner-metrics-grid">
-        <div class="metric-card">
-          <div class="metric-icon">🔥</div>
-          <div class="metric-info">
-            <span class="metric-value shared-streak-days">1 Day</span>
-            <span class="metric-title">Active Mining Streak</span>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">⛏️</div>
-          <div class="metric-info">
-            <span class="metric-value" id="fluid-hashrate">0.85 VE/min</span>
-            <span class="metric-title">Hashrate Speed</span>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">🛡️</div>
-          <div class="metric-info">
-            <span class="metric-value shared-rank-tag">Bronze (Level 01)</span>
-            <span class="metric-title">Achievement Rank</span>
-          </div>
-        </div>
-        <div class="metric-card">
-          <div class="metric-icon">💎</div>
-          <div class="metric-info">
-            <span class="metric-value shared-ves-left">200 VEs left</span>
-            <span class="metric-title">Until Silver Tier</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== 2. EXACT DESKTOP FRAME VIEW (1440 × 450) ==================== -->
-    <div id="desktop-view-container" class="stage-view">
-      <div class="device-frame-wrapper desktop-wrapper">
-        <div class="device-meta-bar">
-          <span class="device-title">Figma Frame: Desktop — Hero variant 06</span>
-          <span class="device-dims">1440 × 450 px (Desktop Canvas)</span>
-        </div>
-        
-        <div class="figma-canvas-desktop">
-          <!-- Right Artwork (x=540, y=0, w=900, h=450) -->
-          <div class="figma-desktop-art">
-            <img src="assets/hero-desktop.png" alt="" class="art-img" />
-            <div class="desktop-art-inset-shadow"></div>
-          </div>
-
-          <!-- Left Translucent Card (x=29, y=37, w=661, h=376) -->
-          <div class="figma-desktop-card">
-            <!-- Header (x=0, y=0) -->
-            <div class="fd-brand">
-              <span class="brand-v-glyph">V</span>
-              <span class="brand-header-text"><strong>VELOOP</strong> Rewards</span>
-            </div>
-
-            <!-- Title (y=38.75) -->
-            <div class="fd-titles">
-              <h1 class="hero-headline">Mine &amp; <span class="gold-gradient-text">EARN</span></h1>
-              <p class="hero-desc">Activate your mining session and earn VEs while you stay engaged.</p>
-            </div>
-
-            <!-- Stats Row (y=125, w=513, h=95) -->
-            <div class="fd-stats-row">
-              <div class="earned-pill-card btn-claim-trigger" role="button" tabindex="0">
-                <div class="earned-card-content">
-                  <div class="coin-avatar-box">
-                    <img src="assets/coin-3d.png" alt="" class="coin-img" />
-                    <div class="coin-ambient-glow"></div>
-                  </div>
-                  <div class="earned-text-meta">
-                    <span class="earned-title">Earned</span>
-                    <span class="earned-amount gold-gradient-text shared-session-earned">+38 VEs</span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="progress-col-block">
-                <span class="progress-label-text">Mining progress</span>
-                <div class="bar-and-pct">
-                  <div class="gold-progress-track">
-                    <div class="gold-progress-fill shared-progress-fill" style="width: 5%;">
-                      <div class="gold-glow-tip"></div>
-                    </div>
-                  </div>
-                  <span class="pct-text shared-progress-text">5%</span>
-                </div>
-                <div class="timer-row">
-                  <svg class="clock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                  <span class="timer-countdown shared-timer-text">45:20 Remaining...</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Button (y=272, w=161, h=41) -->
-            <button class="btn-start-mining-action shared-mining-btn">
-              <img src="assets/btn-gold.png" alt="" class="btn-gold-slice" />
-              <span class="btn-text shared-btn-label">Start Mining</span>
-            </button>
-          </div>
-
-          <!-- Floating 3D Coins (Figma Exact Coordinates) -->
-          <div class="floating-coin" style="top: 225px; left: 959px; transform: rotate(30.87deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 164px; left: 870px; transform: rotate(6.67deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 188px; left: 1031px; transform: rotate(0deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 241px; left: 1145px; transform: rotate(-30.3deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 130px; left: 1121px; transform: rotate(-30.3deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 157px; left: 965px; transform: rotate(-30.3deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 244px; left: 1252px; transform: rotate(-30.3deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 124px; left: 734px; transform: rotate(19deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 95px; left: 844px; transform: rotate(-16.36deg);"><img src="assets/coin-3d.png" alt="" /></div>
-          <div class="floating-coin" style="top: 163px; left: 799px; transform: rotate(1.95deg);"><img src="assets/coin-3d.png" alt="" /></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== 3. EXACT TABLET FRAME VIEW (834 × 540) ==================== -->
-    <div id="tablet-view-container" class="stage-view">
-      <div class="device-frame-wrapper tablet-wrapper">
-        <div class="device-meta-bar">
-          <span class="device-title">Figma Frame: Tablet — Responsive reward landing</span>
-          <span class="device-dims">834 × 540 px (Tablet Canvas)</span>
-        </div>
-
-        <div class="figma-canvas-tablet">
-          <!-- Background Image (x=-60, y=0, w=954, h=537) -->
-          <div class="figma-tablet-art">
-            <img src="assets/hero-tablet.png" alt="" class="art-img" />
-          </div>
-
-          <!-- Top Blur & Left Blur -->
-          <div class="tablet-top-blur-box"></div>
-          <div class="tablet-left-blur-box"></div>
-
-          <!-- Ambient Glow Ellipse (x=166, y=86, w=419, h=79) -->
-          <div class="tablet-ellipse-glow">
-            <img src="assets/ellipse-glow.svg" alt="" />
-          </div>
-
-          <!-- Top Header Block (x=30, y=26, w=572, h=110) -->
-          <div class="figma-tablet-header">
-            <div class="card-brand-header">
-              <span class="brand-v-glyph">V</span>
-              <span class="brand-header-text"><strong>VELOOP</strong> Rewards</span>
-            </div>
-            <h1 class="hero-headline">Mine &amp; <span class="gold-gradient-text">EARN</span></h1>
-            <p class="hero-desc">Activate your mining session and earn VEs while you stay engaged.</p>
-          </div>
-
-          <!-- Start Mining Button at Top Right (x=638, y=92, w=161, h=41) -->
-          <button class="btn-start-mining-action shared-mining-btn tablet-top-btn">
-            <img src="assets/btn-gold.png" alt="" class="btn-gold-slice" />
-            <span class="btn-text shared-btn-label">Start Mining</span>
-          </button>
-
-          <!-- Bottom-Left Stats Box (x=30, y=205, w=340, h=281) -->
-          <div class="figma-tablet-card">
-            <!-- Earned Card -->
-            <div class="earned-pill-card btn-claim-trigger" role="button" tabindex="0">
-              <div class="earned-card-content">
-                <div class="coin-avatar-box">
-                  <img src="assets/coin-3d.png" alt="" class="coin-img" />
-                  <div class="coin-ambient-glow"></div>
-                </div>
-                <div class="earned-text-meta">
-                  <span class="earned-title">Earned</span>
-                  <span class="earned-amount gold-gradient-text shared-session-earned">+38 VEs</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Progress Block -->
-            <div class="progress-col-block">
-              <span class="progress-label-text">Mining progress</span>
-              <div class="bar-and-pct">
-                <div class="gold-progress-track">
-                  <div class="gold-progress-fill shared-progress-fill" style="width: 5%;">
-                    <div class="gold-glow-tip"></div>
-                  </div>
-                </div>
-                <span class="pct-text shared-progress-text">5%</span>
-              </div>
-              <div class="timer-row">
-                <svg class="clock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="timer-countdown shared-timer-text">45:20 Remaining...</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== 4. EXACT MOBILE FRAME VIEW (402 × 874) ==================== -->
-    <div id="mobile-view-container" class="stage-view">
-      <div class="device-frame-wrapper mobile-wrapper">
-        <div class="device-meta-bar">
-          <span class="device-title">Figma Frame: Mobile — Responsive reward landing</span>
-          <span class="device-dims">402 × 874 px (Mobile Canvas)</span>
-        </div>
-
-        <div class="figma-canvas-mobile">
-          <!-- Top Status Bar (x=0, y=0, w=402, h=32) -->
-          <div class="figma-mobile-top-bar">
-            <span>9:41</span>
-            <span>LTE 100%</span>
-          </div>
-
-          <!-- Top Header Card (x=9, y=51, w=384, h=143) -->
-          <div class="figma-mobile-header-card">
-            <div class="card-brand-header">
-              <span class="brand-v-glyph">V</span>
-              <span class="brand-header-text"><strong>VELOOP</strong> Rewards</span>
-            </div>
-            <h1 class="hero-headline mobile-headline">Mine &amp; <span class="gold-gradient-text">EARN</span></h1>
-            <p class="hero-desc mobile-desc">Activate your mining session and earn VEs while you stay engaged.</p>
-          </div>
-
-          <!-- Center Artwork (x=-33, y=155, w=468, h=455) -->
-          <div class="figma-mobile-center-art">
-            <img src="assets/hero-mobile.png" alt="" class="mobile-center-img" />
-            <div class="mobile-art-shadow-overlay"></div>
-          </div>
-
-          <!-- Bottom Controls Card (x=18, y=497, w=366, h=291) -->
-          <div class="figma-mobile-controls-card">
-            <!-- Earned Card (w=185, h=74) -->
-            <div class="earned-pill-card btn-claim-trigger mobile-earned-card" role="button" tabindex="0">
-              <div class="earned-card-content">
-                <div class="coin-avatar-box">
-                  <img src="assets/coin-3d.png" alt="" class="coin-img" />
-                  <div class="coin-ambient-glow"></div>
-                </div>
-                <div class="earned-text-meta">
-                  <span class="earned-title">Earned</span>
-                  <span class="earned-amount gold-gradient-text shared-session-earned">+38 VEs</span>
-                </div>
-              </div>
-            </div>
-
-            <!-- Progress Block -->
-            <div class="progress-col-block">
-              <span class="progress-label-text">Mining progress</span>
-              <div class="bar-and-pct">
-                <div class="gold-progress-track">
-                  <div class="gold-progress-fill shared-progress-fill" style="width: 5%;">
-                    <div class="gold-glow-tip"></div>
-                  </div>
-                </div>
-                <span class="pct-text shared-progress-text">5%</span>
-              </div>
-              <div class="timer-row">
-                <svg class="clock-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
-                <span class="timer-countdown shared-timer-text">45:20 Remaining...</span>
-              </div>
-            </div>
-
-            <!-- Start Mining Button (w=161, h=41) -->
-            <button class="btn-start-mining-action shared-mining-btn mobile-mining-btn">
-              <img src="assets/btn-gold.png" alt="" class="btn-gold-slice" />
-              <span class="btn-text shared-btn-label">Start Mining</span>
-            </button>
-          </div>
-
-          <!-- Bottom Home Indicator (x=0, y=820, w=402, h=54) -->
-          <div class="figma-mobile-bottom-bar">
-            <div class="mobile-home-pill"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ==================== 5. 10-LEVEL 3D ACHIEVEMENT BADGES VIEW ==================== -->
-    <div id="badges-view-container" class="stage-view">
+  <!-- Main Landing Page: 10-Level 3D Achievement Badges System -->
+  <main class="main-stage">
+    <div class="badges-landing-container">
       
-      <!-- Top Overview Milestone Banner (Figma Node 192:81) -->
-      <div class="badge-banner-card">
+      <!-- ==================== 1. TOP OVERVIEW MILESTONE BANNER (Figma Node 192:81) ==================== -->
+      <section class="badge-banner-card" aria-label="Milestone Progress Overview">
         <div class="banner-blur-amber"></div>
         <div class="banner-blur-indigo"></div>
         
         <div class="banner-content">
           <div class="banner-header">
-            <h2 class="banner-title">
+            <h1 class="banner-title">
               10-Level 3D Achievement<br />
               <span class="gold-gradient-text-alt">Badge Design System</span>
-            </h2>
+            </h1>
 
             <div class="banner-next-box">
               <div class="next-title-row">
-                <span class="next-badge-name">Bronze earned. Next up: <strong>Silver — Rising Star</strong></span>
-                <span class="next-badge-req">Earn 250 VEs & maintain a 3-day active streak</span>
+                <span class="next-badge-name" id="banner-next-title">
+                  Bronze earned. Next up: <strong>Silver — Rising Star</strong>
+                </span>
+                <span class="next-badge-req" id="banner-next-req">
+                  Earn 250 VEs &amp; maintain a 3-day active streak
+                </span>
               </div>
 
               <!-- Two Milestone Progress Bars -->
@@ -565,7 +122,7 @@
                 </div>
               </div>
 
-              <p class="next-subtext">200 VEs and 2 more active days to unlock Silver.</p>
+              <p class="next-subtext" id="banner-subtext">200 VEs and 2 more active days to unlock Silver.</p>
             </div>
           </div>
 
@@ -585,34 +142,34 @@
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- Badges Filter & Header (Figma Node 192:129) -->
-      <div class="badges-toolbar">
+      <!-- ==================== 2. BADGES TOOLBAR & FILTERS (Figma Node 192:129) ==================== -->
+      <section class="badges-toolbar" aria-label="Badge Filters">
         <div class="toolbar-info">
-          <h3 class="toolbar-title">10 — Badge Collection (3D)</h3>
-          <p class="toolbar-subtitle">Bronze earned. Your achievements stay forever in your collection.</p>
+          <h2 class="toolbar-title">10 — Badge Collection (3D)</h2>
+          <p class="toolbar-subtitle">All unlocked badges remain permanently in your miner achievement ledger.</p>
         </div>
 
         <!-- Filter Buttons -->
         <div class="filter-group" role="tablist">
-          <button class="filter-pill active" data-filter="all">All 10 Badges</button>
-          <button class="filter-pill" data-filter="unlocked">Unlocked Only</button>
-          <button class="filter-pill" data-filter="locked">Locked Only</button>
+          <button class="filter-pill active" data-filter="all" role="tab" aria-selected="true">All 10 Badges</button>
+          <button class="filter-pill" data-filter="unlocked" role="tab" aria-selected="false">Unlocked Only</button>
+          <button class="filter-pill" data-filter="locked" role="tab" aria-selected="false">Locked Only</button>
         </div>
-      </div>
+      </section>
 
-      <!-- Badges Responsive Grid (Figma Node 192:143) -->
-      <div class="badges-grid" id="badges-grid-container">
-        <!-- Rendered by app.js -->
-      </div>
+      <!-- ==================== 3. 10-LEVEL 3D BADGES RESPONSIVE GRID (Figma Node 192:143) ==================== -->
+      <section class="badges-grid" id="badges-grid-container" aria-label="Badges Grid">
+        <!-- Rendered dynamically by app.js with full 3D illustrations, interactive lock toggles, and metadata -->
+      </section>
+
     </div>
-
   </main>
 
   <!-- ==================== MODALS & DRAWERS ==================== -->
 
-  <!-- Badge Details Modal -->
+  <!-- 3D Badge Inspection Modal -->
   <div id="badge-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-card">
       <button class="modal-close" id="badge-modal-close" aria-label="Close dialog">&times;</button>
@@ -636,12 +193,12 @@
     </div>
   </div>
 
-  <!-- Quests & Earn Activities Modal -->
+  <!-- Instant Quests / VE Earner Modal -->
   <div id="quests-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-card quests-modal-card">
       <button class="modal-close" id="quests-modal-close" aria-label="Close dialog">&times;</button>
       <h3 class="quests-modal-title">🎯 Instant VE Quests</h3>
-      <p class="quests-modal-desc">Complete interactive activities to immediately boost your earned VEs and progress toward the next badge tier!</p>
+      <p class="quests-modal-desc">Complete interactive activities to immediately earn VEs and accelerate your badge unlocking progression!</p>
 
       <div class="quests-list">
         <div class="quest-row" id="quest-item-ads">
@@ -666,7 +223,7 @@
           <div class="q-icon">✅</div>
           <div class="q-info">
             <span class="q-title">Daily Miner Check-in</span>
-            <span class="q-reward">+25 VEs &middot; Streak Booster</span>
+            <span class="q-reward">+25 VEs &middot; Streak Booster (+1 Day)</span>
           </div>
           <button class="q-btn" id="btn-quest-checkin">Claim Check-in</button>
         </div>
@@ -688,11 +245,11 @@
     <div class="footer-inner">
       <div class="footer-left">
         <span class="footer-brand">VELOOP Rewards</span>
-        <span class="footer-copy">&copy; 2026 VELOOP Network. High Fidelity Web3 Reward &amp; Achievement System.</span>
+        <span class="footer-copy">&copy; 2026 VELOOP Network. 10-Level 3D Achievement Badges Collection.</span>
       </div>
       <div class="footer-right">
         <span class="badge-status-dot"></span>
-        <span>Connected to VELOOP Core &bull; Multi-Screen Responsive</span>
+        <span>Connected to VELOOP Core &bull; Fully Responsive</span>
       </div>
     </div>
   </footer>
