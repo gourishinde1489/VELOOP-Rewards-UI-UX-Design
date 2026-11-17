@@ -27,3 +27,151 @@ body {
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
+
+/* ==========================================================================
+   BADGE UNLOCK ANIMATIONS & CELEBRATION EFFECTS
+   ========================================================================== */
+
+/* 3D Pop & Spring Flip when unlocking */
+@keyframes badgeUnlockPop {
+  0% {
+    transform: perspective(800px) scale(0.6) rotateY(0deg);
+    filter: brightness(2) contrast(1.5) drop-shadow(0 0 40px #fbbf24);
+  }
+  40% {
+    transform: perspective(800px) scale(1.3) rotateY(180deg);
+    filter: brightness(1.7) drop-shadow(0 0 50px rgba(245, 158, 11, 0.95));
+  }
+  70% {
+    transform: perspective(800px) scale(0.95) rotateY(360deg);
+    filter: brightness(1.2) drop-shadow(0 0 25px rgba(245, 158, 11, 0.7));
+  }
+  100% {
+    transform: perspective(800px) scale(1) rotateY(360deg);
+    filter: brightness(1) drop-shadow(0 14px 28px rgba(0, 0, 0, 0.7));
+  }
+}
+
+.animate-badge-unlock {
+  animation: badgeUnlockPop 1.1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+/* Shockwave Expanding Ring */
+@keyframes shockwaveRing {
+  0% {
+    transform: scale(0.4);
+    opacity: 1;
+    border-color: rgba(251, 191, 36, 1);
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2.4);
+    opacity: 0;
+    border-color: rgba(251, 191, 36, 0);
+  }
+}
+
+.animate-shockwave {
+  animation: shockwaveRing 1s ease-out forwards;
+}
+
+/* Diagonal Light Sweep / Sheen across card */
+@keyframes shimmerLightSweep {
+  0% {
+    transform: translateX(-160%) skewX(-25deg);
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(260%) skewX(-25deg);
+    opacity: 0;
+  }
+}
+
+.animate-shimmer-sweep {
+  animation: shimmerLightSweep 1s ease-in-out forwards;
+}
+
+/* Card Glow Flash */
+@keyframes unlockCardFlash {
+  0% {
+    box-shadow: 0 0 0 rgba(245, 158, 11, 0);
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  30% {
+    box-shadow: 0 0 50px rgba(245, 158, 11, 0.9), inset 0 0 30px rgba(245, 158, 11, 0.4);
+    border-color: rgba(251, 191, 36, 1);
+    transform: scale(1.03) translateY(-4px);
+  }
+  70% {
+    box-shadow: 0 0 35px rgba(245, 158, 11, 0.6), inset 0 0 20px rgba(245, 158, 11, 0.25);
+    border-color: rgba(245, 158, 11, 0.7);
+  }
+  100% {
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.55);
+    border-color: rgba(245, 158, 11, 0.3);
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-card-unlock {
+  animation: unlockCardFlash 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+/* Floating celebration banner / text */
+@keyframes floatUpCelebration {
+  0% {
+    transform: translate(-50%, 0) scale(0.6);
+    opacity: 0;
+  }
+  20% {
+    transform: translate(-50%, -15px) scale(1.1);
+    opacity: 1;
+  }
+  80% {
+    transform: translate(-50%, -35px) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50px) scale(0.9);
+    opacity: 0;
+  }
+}
+
+.animate-float-celebration {
+  animation: floatUpCelebration 1.4s ease-out forwards;
+}
+
+/* Rotating Sunburst Halo Rays */
+@keyframes rotateSunburst {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-sunburst {
+  animation: rotateSunburst 16s linear infinite;
+}
+
+/* Pulse Glow */
+@keyframes pulseGoldGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1.15);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulseGoldGlow 2.5s ease-in-out infinite;
+}

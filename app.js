@@ -160,6 +160,9 @@ class SoundFX {
     if (!this.ctx && (window.AudioContext || window.webkitAudioContext)) {
       this.ctx = new (window.AudioContext || window.webkitAudioContext)();
     }
+    if (this.ctx && this.ctx.state === 'suspended') {
+      this.ctx.resume();
+    }
   }
 
   playCoinChime() {
@@ -175,7 +178,7 @@ class SoundFX {
       osc.frequency.setValueAtTime(987.77, now); // B5
       osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.08); // E6
 
-      gain.gain.setValueAtTime(0.18, now);
+      gain.gain.setValueAtTime(0.25, now);
       gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
 
       osc.connect(gain);
@@ -190,22 +193,48 @@ class SoundFX {
     try {
       this.init();
       if (!this.ctx) return;
-      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
-      notes.forEach((freq, i) => {
-        const now = this.ctx.currentTime + (i * 0.09);
+
+      const notes = [
+        { freq: 523.25, delay: 0.00 }, // C5
+        { freq: 659.25, delay: 0.08 }, // E5
+        { freq: 783.99, delay: 0.16 }, // G5
+        { freq: 1046.50, delay: 0.25 }  // C6
+      ];
+
+      // Arpeggio
+      notes.forEach(({ freq, delay }) => {
+        const now = this.ctx.currentTime + delay;
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(freq, now);
+
+        gain.gain.setValueAtTime(0.22, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.32);
+
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.32);
+      });
+
+      // Triumphant chord
+      [523.25, 659.25, 783.99, 1046.50, 1318.51].forEach((freq) => {
+        const now = this.ctx.currentTime + 0.32;
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
 
         osc.type = 'sine';
         osc.frequency.setValueAtTime(freq, now);
 
-        gain.gain.setValueAtTime(0.16, now);
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+        gain.gain.setValueAtTime(0.12, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.65);
 
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start(now);
-        osc.stop(now + 0.4);
+        osc.stop(now + 0.65);
       });
     } catch (_) {}
   }
@@ -214,7 +243,7 @@ class SoundFX {
 const sounds = new SoundFX();
 
 // ==========================================
-// 3. CANVAS PARTICLE FX
+// 3. CANVAS PARTICLE FX (CONFETTI & STARS)
 // ==========================================
 class ParticleFX {
   constructor(canvasId) {
@@ -233,20 +262,28 @@ class ParticleFX {
     this.canvas.height = window.innerHeight;
   }
 
-  burst(x, y, count = 30, color = '#fbbf24') {
+  burst(x, y, count = 75, color) {
     if (!this.canvas) return;
+    const originX = x ?? window.innerWidth / 2;
+    const originY = y ?? window.innerHeight / 2;
+    const colors = ['#fbbf24', '#f59e0b', '#fde68a', '#34d399', '#22d3ee', '#ffffff', '#ffd700'];
+    const shapes = ['circle', 'square', 'star'];
+
     for (let i = 0; i < count; i++) {
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 5 + 2;
+      const speed = Math.random() * 8 + 3;
       this.particles.push({
-        x: x || window.innerWidth / 2,
-        y: y || window.innerHeight / 2,
+        x: originX,
+        y: originY,
         vx: Math.cos(angle) * speed,
-        vy: Math.sin(angle) * speed - 1.5,
+        vy: Math.sin(angle) * speed - 2.5,
         life: 1,
-        decay: Math.random() * 0.02 + 0.015,
-        size: Math.random() * 4 + 2,
-        color: color
+        decay: Math.random() * 0.016 + 0.01,
+        size: Math.random() * 7 + 3,
+        color: color || colors[Math.floor(Math.random() * colors.length)],
+        rotation: Math.random() * Math.PI * 2,
+        vRot: (Math.random() - 0.5) * 0.2,
+        shape: shapes[Math.floor(Math.random() * shapes.length)]
       });
     }
   }
@@ -259,7 +296,8 @@ class ParticleFX {
       const p = this.particles[i];
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.12; // gravity
+      p.vy += 0.14; // gravity
+      p.rotation += p.vRot;
       p.life -= p.decay;
 
       if (p.life <= 0) {
@@ -269,10 +307,31 @@ class ParticleFX {
 
       this.ctx.save();
       this.ctx.globalAlpha = p.life;
+      this.ctx.translate(p.x, p.y);
+      this.ctx.rotate(p.rotation);
       this.ctx.fillStyle = p.color;
-      this.ctx.beginPath();
-      this.ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
-      this.ctx.fill();
+
+      if (p.shape === 'star') {
+        const s = p.size;
+        this.ctx.beginPath();
+        this.ctx.moveTo(0, -s);
+        this.ctx.lineTo(s * 0.3, -s * 0.3);
+        this.ctx.lineTo(s, 0);
+        this.ctx.lineTo(s * 0.3, s * 0.3);
+        this.ctx.lineTo(0, s);
+        this.ctx.lineTo(-s * 0.3, s * 0.3);
+        this.ctx.lineTo(-s, 0);
+        this.ctx.lineTo(-s * 0.3, -s * 0.3);
+        this.ctx.closePath();
+        this.ctx.fill();
+      } else if (p.shape === 'square') {
+        this.ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+      } else {
+        this.ctx.beginPath();
+        this.ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+        this.ctx.fill();
+      }
+
       this.ctx.restore();
     }
 
@@ -336,7 +395,7 @@ function renderBadges() {
       </div>
 
       <div class="badge-info">
-        <h3 class="badge-name">${badge.name}</h3>
+        <h3 class="badge-name">${badge.name} ${badge.unlocked ? '<span style="color:#fbbf24; font-size:14px;">✦</span>' : ''}</h3>
         <span class="badge-rank">${badge.rank}</span>
         <p class="badge-desc">${badge.desc}</p>
       </div>
@@ -437,23 +496,71 @@ function syncMilestoneUI() {
   if (statTotal) statTotal.textContent = `${AppState.totalVEs} VEs`;
 }
 
-// Toggle Badge Unlock Status
+// ==========================================
+// 7. UNLOCK ANIMATION & CELEBRATION TRIGGER
+// ==========================================
 function toggleBadgeLock(badgeId, event) {
   const badge = AppState.badges.find(b => b.id === badgeId);
   if (!badge) return;
 
-  badge.unlocked = !badge.unlocked;
+  const nextState = !badge.unlocked;
+  badge.unlocked = nextState;
 
-  if (badge.unlocked) {
+  if (nextState) {
+    // UNLOCK ANIMATION TRIGGER
     sounds.playFanfare();
-    if (fx && event) fx.burst(event.clientX, event.clientY, 40, '#fcd34d');
-    showToast(`Unlocked ${badge.name} Badge (${badge.rank})!`, '🏆');
+
+    let clickX = window.innerWidth / 2;
+    let clickY = window.innerHeight / 2;
+
+    if (event) {
+      clickX = event.clientX;
+      clickY = event.clientY;
+    }
+
+    if (fx) {
+      fx.burst(clickX, clickY, 80);
+    }
+
+    // Trigger in-card shockwave and 3D pop on the existing DOM card before re-render
+    const cardEl = document.querySelector(`.badge-card[data-id="${badgeId}"]`);
+    if (cardEl) {
+      cardEl.classList.add('is-just-unlocked');
+
+      const shockwave = document.createElement('div');
+      shockwave.className = 'unlock-shockwave-ring';
+      cardEl.appendChild(shockwave);
+
+      const sheen = document.createElement('div');
+      sheen.className = 'unlock-shimmer-sweep';
+      cardEl.appendChild(sheen);
+
+      const pill = document.createElement('div');
+      pill.className = 'unlock-float-pill';
+      pill.textContent = '✨ BADGE UNLOCKED! ✨';
+      cardEl.appendChild(pill);
+
+      const img = cardEl.querySelector('.badge-art-img');
+      if (img) {
+        img.src = badge.imgUnlocked;
+        img.classList.add('animate-badge-unlock');
+      }
+    }
+
+    // Open Grand Celebration Modal
+    openCelebrationModal(badge);
+
+    showToast(`🏆 UNLOCKED: ${badge.name} Badge (${badge.rank})!`);
   } else {
+    // LOCK (RESET)
     sounds.playCoinChime();
-    showToast(`${badge.name} Badge locked for progression testing.`, '🔒');
+    showToast(`${badge.name} Badge locked for testing.`, '🔒');
   }
 
-  renderBadges();
+  // Update data & UI
+  setTimeout(() => {
+    renderBadges();
+  }, 100);
 }
 
 // Auto-check milestone unlocks based on VEs and streak
@@ -462,6 +569,8 @@ function checkMilestones() {
     if (!badge.unlocked && AppState.totalVEs >= badge.targetVEs && AppState.streakDays >= badge.targetStreak) {
       badge.unlocked = true;
       sounds.playFanfare();
+      if (fx) fx.burst(window.innerWidth / 2, window.innerHeight / 2, 80);
+      openCelebrationModal(badge);
       showToast(`🎉 Milestone Reached: You unlocked ${badge.name} (${badge.rank})!`, '🏆');
     }
   });
@@ -469,9 +578,45 @@ function checkMilestones() {
 }
 
 // ==========================================
-// 7. MODAL CONTROLLERS
+// 8. MODAL CONTROLLERS
 // ==========================================
 let currentModalBadge = null;
+
+function openCelebrationModal(badge) {
+  const modal = document.getElementById('celebration-modal');
+  if (!modal) return;
+
+  const levelTag = document.getElementById('celebration-level-tag');
+  const title = document.getElementById('celebration-title');
+  const rank = document.getElementById('celebration-rank');
+  const img = document.getElementById('celebration-badge-img');
+  const desc = document.getElementById('celebration-desc');
+  const req = document.getElementById('celebration-req');
+
+  if (levelTag) levelTag.textContent = badge.level;
+  if (title) title.textContent = badge.name;
+  if (rank) rank.textContent = badge.rank;
+  if (img) {
+    img.src = badge.imgUnlocked;
+    img.classList.remove('celebration-img');
+    void img.offsetWidth; // trigger reflow
+    img.classList.add('celebration-img');
+  }
+  if (desc) desc.textContent = badge.desc;
+  if (req) req.textContent = badge.req;
+
+  modal.classList.add('active');
+  modal.setAttribute('aria-hidden', 'false');
+}
+
+function closeCelebrationModal() {
+  const modal = document.getElementById('celebration-modal');
+  if (!modal) return;
+  modal.classList.remove('active');
+  modal.setAttribute('aria-hidden', 'true');
+  sounds.playCoinChime();
+  if (fx) fx.burst(window.innerWidth / 2, window.innerHeight / 2, 35);
+}
 
 function openBadgeModal(badge) {
   currentModalBadge = badge;
@@ -485,6 +630,7 @@ function openBadgeModal(badge) {
   const toggleBtn = document.getElementById('modal-toggle-unlock-btn');
 
   img.src = badge.unlocked ? badge.imgUnlocked : badge.imgLocked;
+  img.classList.remove('animate-badge-unlock');
   level.textContent = badge.level;
   title.textContent = badge.name;
   rank.textContent = badge.rank;
@@ -520,13 +666,13 @@ function completeQuest(rewardAmount, questName, event) {
   AppState.totalVEs += rewardAmount;
   syncMilestoneUI();
 
-  if (fx && event) fx.burst(event.clientX, event.clientY, 30, '#34d399');
+  if (fx && event) fx.burst(event.clientX, event.clientY, 35, '#34d399');
   showToast(`+${rewardAmount} VEs earned from: ${questName}!`, '🎁');
   checkMilestones();
 }
 
 // ==========================================
-// 8. INITIALIZATION
+// 9. INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   fx = new ParticleFX('fx-canvas');
@@ -567,12 +713,19 @@ document.addEventListener('DOMContentLoaded', () => {
   const badgeModalClose = document.getElementById('badge-modal-close');
   if (badgeModalClose) badgeModalClose.addEventListener('click', closeBadgeModal);
 
+  const celebrationClose = document.getElementById('celebration-modal-close');
+  if (celebrationClose) celebrationClose.addEventListener('click', closeCelebrationModal);
+
+  const celebrationClaim = document.getElementById('celebration-claim-btn');
+  if (celebrationClaim) celebrationClaim.addEventListener('click', closeCelebrationModal);
+
   const modalToggleUnlock = document.getElementById('modal-toggle-unlock-btn');
   if (modalToggleUnlock) {
     modalToggleUnlock.addEventListener('click', (e) => {
       if (currentModalBadge) {
-        toggleBadgeLock(currentModalBadge.id, e);
+        const id = currentModalBadge.id;
         closeBadgeModal();
+        toggleBadgeLock(id, e);
       }
     });
   }
@@ -625,8 +778,10 @@ document.addEventListener('DOMContentLoaded', () => {
   // Backdrop click closes modals
   window.addEventListener('click', (e) => {
     const badgeModal = document.getElementById('badge-modal');
+    const celebrationModal = document.getElementById('celebration-modal');
     const questsModal = document.getElementById('quests-modal');
     if (e.target === badgeModal) closeBadgeModal();
+    if (e.target === celebrationModal) closeCelebrationModal();
     if (e.target === questsModal) closeQuestsModal();
   });
 

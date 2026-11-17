@@ -118,6 +118,20 @@ const INITIAL_BADGES: Badge[] = [
   }
 ];
 
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  alpha: number;
+  decay: number;
+  rotation: number;
+  vRot: number;
+  shape: 'circle' | 'square' | 'star';
+}
+
 export default function BadgesLandingPage() {
   const [totalVEs, setTotalVEs] = useState(50);
   const [streakDays, setStreakDays] = useState(1);
@@ -125,31 +139,151 @@ export default function BadgesLandingPage() {
   const [badges, setBadges] = useState<Badge[]>(INITIAL_BADGES);
   const [badgeFilter, setBadgeFilter] = useState<'all' | 'unlocked' | 'locked'>('all');
   const [selectedBadge, setSelectedBadge] = useState<Badge | null>(null);
+  const [celebrationBadge, setCelebrationBadge] = useState<Badge | null>(null);
+  const [animatingBadgeId, setAnimatingBadgeId] = useState<number | null>(null);
   const [isQuestsOpen, setIsQuestsOpen] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
+
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const particlesRef = useRef<Particle[]>([]);
+
+  // Confetti Particle System
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animId: number;
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener('resize', resize);
+
+    const render = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (let i = particlesRef.current.length - 1; i >= 0; i--) {
+        const p = particlesRef.current[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.15; // gravity
+        p.rotation += p.vRot;
+        p.alpha -= p.decay;
+
+        if (p.alpha <= 0) {
+          particlesRef.current.splice(i, 1);
+          continue;
+        }
+
+        ctx.save();
+        ctx.globalAlpha = p.alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rotation);
+        ctx.fillStyle = p.color;
+
+        if (p.shape === 'star') {
+          // Draw 4-point star
+          ctx.beginPath();
+          const s = p.size;
+          ctx.moveTo(0, -s);
+          ctx.lineTo(s * 0.3, -s * 0.3);
+          ctx.lineTo(s, 0);
+          ctx.lineTo(s * 0.3, s * 0.3);
+          ctx.lineTo(0, s);
+          ctx.lineTo(-s * 0.3, s * 0.3);
+          ctx.lineTo(-s, 0);
+          ctx.lineTo(-s * 0.3, -s * 0.3);
+          ctx.closePath();
+          ctx.fill();
+        } else if (p.shape === 'square') {
+          ctx.fillRect(-p.size / 2, -p.size / 2, p.size, p.size);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        ctx.restore();
+      }
+
+      animId = requestAnimationFrame(render);
+    };
+
+    render();
+
+    return () => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+    };
+  }, []);
+
+  const triggerConfetti = (originX?: number, originY?: number, count = 70) => {
+    const x = originX ?? (typeof window !== 'undefined' ? window.innerWidth / 2 : 400);
+    const y = originY ?? (typeof window !== 'undefined' ? window.innerHeight / 2 : 300);
+    const colors = ['#fbbf24', '#f59e0b', '#fde68a', '#34d399', '#22d3ee', '#ffffff', '#ffd700'];
+    const shapes: ('circle' | 'square' | 'star')[] = ['circle', 'square', 'star'];
+
+    for (let i = 0; i < count; i++) {
+      const angle = Math.random() * Math.PI * 2;
+      const speed = Math.random() * 8 + 3;
+      particlesRef.current.push({
+        x,
+        y,
+        vx: Math.cos(angle) * speed,
+        vy: Math.sin(angle) * speed - 2.5,
+        size: Math.random() * 8 + 4,
+        color: colors[Math.floor(Math.random() * colors.length)],
+        alpha: 1,
+        decay: Math.random() * 0.015 + 0.01,
+        rotation: Math.random() * Math.PI * 2,
+        vRot: (Math.random() - 0.5) * 0.2,
+        shape: shapes[Math.floor(Math.random() * shapes.length)]
+      });
+    }
+  };
 
   const showToast = (msg: string) => {
     setToast(msg);
     setTimeout(() => setToast(null), 3200);
   };
 
-  const toggleBadge = (id: number) => {
+  const toggleBadge = (id: number, clickEvent?: React.MouseEvent) => {
+    const targetBadge = badges.find((b) => b.id === id);
+    if (!targetBadge) return;
+
+    const nextState = !targetBadge.unlocked;
+
+    if (nextState) {
+      // UNLOCK ANIMATION TRIGGER
+      if (soundEnabled) sounds.playFanfare();
+      const rect = clickEvent?.currentTarget?.getBoundingClientRect();
+      const originX = rect ? rect.left + rect.width / 2 : undefined;
+      const originY = rect ? rect.top + rect.height / 2 : undefined;
+
+      triggerConfetti(originX, originY, 80);
+      setAnimatingBadgeId(id);
+      setTimeout(() => setAnimatingBadgeId(null), 1400);
+
+      const updated = { ...targetBadge, unlocked: true };
+      setCelebrationBadge(updated);
+      showToast(`🏆 UNLOCKED: ${targetBadge.name} (${targetBadge.rank})!`);
+    } else {
+      // LOCK (RESET) TRIGGER
+      if (soundEnabled) sounds.playCoinChime();
+      showToast(`🔒 ${targetBadge.name} Badge locked for testing.`);
+    }
+
     setBadges((prev) =>
-      prev.map((b) => {
-        if (b.id === id) {
-          const nextState = !b.unlocked;
-          if (nextState) {
-            if (soundEnabled) sounds.playFanfare();
-            showToast(`🏆 Unlocked ${b.name} Badge (${b.rank})!`);
-          } else {
-            if (soundEnabled) sounds.playCoinChime();
-            showToast(`🔒 ${b.name} Badge locked for progression testing.`);
-          }
-          return { ...b, unlocked: nextState };
-        }
-        return b;
-      })
+      prev.map((b) => (b.id === id ? { ...b, unlocked: nextState } : b))
     );
+
+    if (selectedBadge?.id === id) {
+      setSelectedBadge((prev) => (prev ? { ...prev, unlocked: nextState } : null));
+    }
   };
 
   const unlockedCount = badges.filter((b) => b.unlocked).length;
@@ -163,7 +297,13 @@ export default function BadgesLandingPage() {
   });
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#161827] text-[#f5f3ed]">
+    <div className="min-h-screen flex flex-col bg-[#161827] text-[#f5f3ed] relative">
+      {/* Particle Canvas for Celebrations */}
+      <canvas
+        ref={canvasRef}
+        className="fixed inset-0 pointer-events-none z-50"
+      />
+
       {/* Toast Notification */}
       {toast && (
         <div className="fixed bottom-6 right-6 z-50 bg-[#161827]/95 border border-amber-500/40 text-white px-5 py-3 rounded-xl shadow-2xl text-sm font-semibold flex items-center gap-2 animate-bounce">
@@ -347,60 +487,169 @@ export default function BadgesLandingPage() {
 
         {/* ================= 3. 10-LEVEL 3D BADGES RESPONSIVE GRID ================= */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredBadges.map((badge) => (
-            <div
-              key={badge.id}
-              onClick={() => setSelectedBadge(badge)}
-              className={`rounded-2xl p-6 border transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 group ${
-                badge.unlocked
-                  ? 'bg-[#1e2238]/70 border-amber-500/30 hover:border-amber-400 hover:-translate-y-1.5 shadow-[0_12px_35px_rgba(0,0,0,0.55)]'
-                  : 'bg-[#181c30]/65 border-white/10 hover:border-white/20'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider ${
-                  badge.unlocked ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-white/5 text-slate-400'
-                }`}>
-                  {badge.level}
-                </span>
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleBadge(badge.id);
-                  }}
-                  className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-transform hover:scale-105 ${
-                    badge.unlocked
-                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                      : 'bg-white/5 text-slate-400 border-white/10'
-                  }`}
-                >
-                  {badge.unlocked ? '● Unlocked' : '○ Locked'}
-                </button>
-              </div>
+          {filteredBadges.map((badge) => {
+            const isJustUnlocked = animatingBadgeId === badge.id;
 
-              <div className="h-48 flex items-center justify-center p-2">
-                <img
-                  src={badge.unlocked ? badge.imgUnlocked : badge.imgLocked}
-                  alt={badge.name}
-                  className="max-h-full max-w-full object-contain drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)] group-hover:scale-105 transition-transform"
-                />
-              </div>
+            return (
+              <div
+                key={badge.id}
+                onClick={() => setSelectedBadge(badge)}
+                className={`relative rounded-2xl p-6 border transition-all duration-300 cursor-pointer flex flex-col justify-between gap-4 group overflow-hidden ${
+                  isJustUnlocked
+                    ? 'animate-card-unlock bg-[#222744] z-10'
+                    : badge.unlocked
+                    ? 'bg-[#1e2238]/70 border-amber-500/30 hover:border-amber-400 hover:-translate-y-1.5 shadow-[0_12px_35px_rgba(0,0,0,0.55)]'
+                    : 'bg-[#181c30]/65 border-white/10 hover:border-white/20'
+                }`}
+              >
+                {/* Diagonal Light Sweep Ray during unlock */}
+                {isJustUnlocked && (
+                  <div className="absolute inset-0 w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent animate-shimmer-sweep pointer-events-none z-30" />
+                )}
 
-              <div className="space-y-1">
-                <div className="text-xl font-black text-white">{badge.name}</div>
-                <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400">{badge.rank}</div>
-                <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">{badge.desc}</p>
-              </div>
+                {/* Floating "+1 UNLOCKED!" ribbon banner during unlock */}
+                {isJustUnlocked && (
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 animate-float-celebration bg-gradient-to-r from-amber-400 to-amber-200 text-slate-950 font-black text-xs px-4 py-1.5 rounded-full shadow-[0_0_20px_#fbbf24] z-40 whitespace-nowrap pointer-events-none">
+                    ✨ BADGE UNLOCKED! ✨
+                  </div>
+                )}
 
-              <div className="bg-black/35 rounded-xl p-2.5 text-[11px] text-slate-300 flex items-center gap-2 mt-auto border border-white/5">
-                <span className="text-amber-400">🎯</span>
-                <span className="truncate">{badge.req}</span>
+                <div className="flex items-center justify-between">
+                  <span className={`text-[10px] font-black uppercase px-2.5 py-1 rounded-md tracking-wider ${
+                    badge.unlocked ? 'bg-amber-500/20 text-amber-300 border border-amber-500/30' : 'bg-white/5 text-slate-400'
+                  }`}>
+                    {badge.level}
+                  </span>
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleBadge(badge.id, e);
+                    }}
+                    className={`text-[11px] font-semibold px-2.5 py-0.5 rounded-full border transition-all hover:scale-105 active:scale-95 ${
+                      badge.unlocked
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30'
+                        : 'bg-white/5 text-slate-400 border-white/10 hover:text-white hover:border-amber-400/50'
+                    }`}
+                  >
+                    {badge.unlocked ? '● Unlocked' : '○ Locked'}
+                  </button>
+                </div>
+
+                {/* 3D Badge Art Frame */}
+                <div className="relative h-48 flex items-center justify-center p-2">
+                  {/* Expanding Shockwave Ring during unlock */}
+                  {isJustUnlocked && (
+                    <div className="absolute w-36 h-36 rounded-full border-2 border-amber-400 animate-shockwave pointer-events-none z-10" />
+                  )}
+
+                  <img
+                    src={badge.unlocked ? badge.imgUnlocked : badge.imgLocked}
+                    alt={badge.name}
+                    className={`max-h-full max-w-full object-contain transition-transform duration-500 ${
+                      isJustUnlocked
+                        ? 'animate-badge-unlock'
+                        : 'drop-shadow-[0_12px_24px_rgba(0,0,0,0.65)] group-hover:scale-105'
+                    }`}
+                  />
+                </div>
+
+                <div className="space-y-1">
+                  <div className="text-xl font-black text-white flex items-center gap-2">
+                    <span>{badge.name}</span>
+                    {badge.unlocked && <span className="text-amber-400 text-sm">✦</span>}
+                  </div>
+                  <div className="text-[11px] font-bold uppercase tracking-wider text-amber-400">{badge.rank}</div>
+                  <p className="text-xs text-slate-400 line-clamp-2 leading-relaxed">{badge.desc}</p>
+                </div>
+
+                <div className="bg-black/35 rounded-xl p-2.5 text-[11px] text-slate-300 flex items-center gap-2 mt-auto border border-white/5">
+                  <span className="text-amber-400">🎯</span>
+                  <span className="truncate">{badge.req}</span>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </section>
 
       </main>
+
+      {/* ================= GRAND UNLOCK CELEBRATION MODAL ================= */}
+      {celebrationBadge && (
+        <div
+          className="fixed inset-0 z-50 bg-black/90 backdrop-blur-xl flex items-center justify-center p-4 animate-fadeIn"
+          onClick={() => setCelebrationBadge(null)}
+        >
+          <div
+            className="relative bg-gradient-to-b from-[#1e233d] to-[#121422] border-2 border-amber-400/60 rounded-3xl max-w-lg w-full p-8 text-center space-y-6 shadow-[0_0_80px_rgba(245,158,11,0.5)] overflow-hidden"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Sunburst Rotating Light Rays in background */}
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-25">
+              <div
+                className="w-[600px] h-[600px] rounded-full animate-sunburst"
+                style={{
+                  background: 'conic-gradient(from 0deg, transparent 0deg, rgba(251,191,36,0.3) 15deg, transparent 30deg, rgba(251,191,36,0.3) 45deg, transparent 60deg, rgba(251,191,36,0.3) 75deg, transparent 90deg, rgba(251,191,36,0.3) 105deg, transparent 120deg, rgba(251,191,36,0.3) 135deg, transparent 150deg, rgba(251,191,36,0.3) 165deg, transparent 180deg, rgba(251,191,36,0.3) 195deg, transparent 210deg, rgba(251,191,36,0.3) 225deg, transparent 240deg, rgba(251,191,36,0.3) 255deg, transparent 270deg, rgba(251,191,36,0.3) 285deg, transparent 300deg, rgba(251,191,36,0.3) 315deg, transparent 330deg, rgba(251,191,36,0.3) 345deg, transparent 360deg)'
+                }}
+              />
+            </div>
+
+            {/* Glowing Halo */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-amber-500/25 rounded-full blur-3xl animate-pulse-glow pointer-events-none" />
+
+            <div className="relative z-10 flex justify-between items-center">
+              <span className="text-xs font-black tracking-widest text-amber-300 uppercase px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40">
+                {celebrationBadge.level}
+              </span>
+              <button
+                onClick={() => setCelebrationBadge(null)}
+                className="text-slate-400 hover:text-white text-2xl font-bold transition-colors"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="relative z-10 space-y-1">
+              <div className="text-xs font-black uppercase tracking-widest text-amber-400 animate-pulse">
+                ✦ ACHIEVEMENT UNLOCKED ✦
+              </div>
+              <h2 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
+                {celebrationBadge.name}
+              </h2>
+              <div className="text-sm font-extrabold uppercase tracking-wider text-amber-300">
+                {celebrationBadge.rank}
+              </div>
+            </div>
+
+            {/* 3D Badge Visual with Unlock Pop Animation */}
+            <div className="relative z-10 h-60 flex items-center justify-center">
+              <img
+                src={celebrationBadge.imgUnlocked}
+                alt={celebrationBadge.name}
+                className="max-h-full max-w-full object-contain animate-badge-unlock drop-shadow-[0_20px_40px_rgba(245,158,11,0.6)]"
+              />
+            </div>
+
+            <p className="relative z-10 text-xs sm:text-sm text-slate-300 leading-relaxed max-w-md mx-auto">
+              {celebrationBadge.desc}
+            </p>
+
+            <div className="relative z-10 bg-black/40 border border-amber-500/30 rounded-2xl p-3.5 text-xs text-left space-y-1">
+              <div className="font-bold text-amber-400">Unlock Criteria Achieved:</div>
+              <div className="text-slate-300">{celebrationBadge.req}</div>
+            </div>
+
+            <button
+              onClick={() => {
+                if (soundEnabled) sounds.playCoinChime();
+                setCelebrationBadge(null);
+              }}
+              className="relative z-10 w-full py-4 rounded-2xl bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 text-slate-950 font-black text-base shadow-[0_0_30px_rgba(251,191,36,0.6)] hover:brightness-110 active:scale-98 transition-all"
+            >
+              Collect Badge &amp; Continue ✨
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Quests Modal */}
       {isQuestsOpen && (
@@ -421,6 +670,7 @@ export default function BadgesLandingPage() {
                   onClick={() => {
                     setTotalVEs((t) => t + 5);
                     if (soundEnabled) sounds.playCoinChime();
+                    triggerConfetti(undefined, undefined, 25);
                     showToast('📺 +5 VEs earned from clip!');
                   }}
                   className="bg-amber-500/20 text-amber-200 border border-amber-500/40 text-xs font-bold px-4 py-2 rounded-xl hover:bg-amber-500/30 transition-colors"
@@ -438,6 +688,7 @@ export default function BadgesLandingPage() {
                   onClick={() => {
                     setTotalVEs((t) => t + 15);
                     if (soundEnabled) sounds.playCoinChime();
+                    triggerConfetti(undefined, undefined, 35);
                     showToast('🎮 +15 VEs earned from mini game!');
                   }}
                   className="bg-amber-500/20 text-amber-200 border border-amber-500/40 text-xs font-bold px-4 py-2 rounded-xl hover:bg-amber-500/30 transition-colors"
@@ -456,6 +707,7 @@ export default function BadgesLandingPage() {
                     setStreakDays((s) => s + 1);
                     setTotalVEs((t) => t + 25);
                     if (soundEnabled) sounds.playFanfare();
+                    triggerConfetti(undefined, undefined, 50);
                     showToast('✅ Streak boosted! +25 VEs earned!');
                   }}
                   className="bg-amber-500/20 text-amber-200 border border-amber-500/40 text-xs font-bold px-4 py-2 rounded-xl hover:bg-amber-500/30 transition-colors"
@@ -473,6 +725,7 @@ export default function BadgesLandingPage() {
                   onClick={() => {
                     setTotalVEs((t) => t + 50);
                     if (soundEnabled) sounds.playCoinChime();
+                    triggerConfetti(undefined, undefined, 50);
                     showToast('🚀 Referral link copied! +50 VEs awarded!');
                   }}
                   className="bg-amber-500/20 text-amber-200 border border-amber-500/40 text-xs font-bold px-4 py-2 rounded-xl hover:bg-amber-500/30 transition-colors"
@@ -492,11 +745,13 @@ export default function BadgesLandingPage() {
             <div className="flex justify-end">
               <button onClick={() => setSelectedBadge(null)} className="text-slate-400 hover:text-white text-2xl font-bold">✕</button>
             </div>
-            <div className="h-52 flex items-center justify-center">
+            <div className="h-52 flex items-center justify-center relative">
               <img
                 src={selectedBadge.unlocked ? selectedBadge.imgUnlocked : selectedBadge.imgLocked}
                 alt={selectedBadge.name}
-                className="max-h-full max-w-full object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.75)]"
+                className={`max-h-full max-w-full object-contain drop-shadow-[0_16px_32px_rgba(0,0,0,0.75)] ${
+                  animatingBadgeId === selectedBadge.id ? 'animate-badge-unlock' : ''
+                }`}
               />
             </div>
             <span className="inline-block text-[11px] font-black uppercase px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30">
@@ -510,11 +765,10 @@ export default function BadgesLandingPage() {
               <div className="text-xs text-slate-300">{selectedBadge.req}</div>
             </div>
             <button
-              onClick={() => {
-                toggleBadge(selectedBadge.id);
-                setSelectedBadge(null);
+              onClick={(e) => {
+                toggleBadge(selectedBadge.id, e);
               }}
-              className="w-full py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-200 text-[#161827] font-black text-sm hover:opacity-95 transition-opacity"
+              className="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-200 text-[#161827] font-black text-sm hover:opacity-95 transition-all shadow-[0_0_20px_rgba(245,158,11,0.4)]"
             >
               {selectedBadge.unlocked ? 'Lock Badge (Reset)' : 'Unlock Badge ✨'}
             </button>

@@ -169,6 +169,35 @@
 
   <!-- ==================== MODALS & DRAWERS ==================== -->
 
+  <!-- Grand Unlock Celebration Modal -->
+  <div id="celebration-modal" class="modal-backdrop celebration-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
+    <div class="modal-card celebration-card">
+      <div class="celebration-sunburst"></div>
+      <div class="celebration-halo"></div>
+      <button class="modal-close" id="celebration-modal-close" aria-label="Close dialog">&times;</button>
+      
+      <div class="celebration-level-tag" id="celebration-level-tag">LEVEL 02</div>
+      <div class="celebration-cue">✦ ACHIEVEMENT UNLOCKED ✦</div>
+      <h2 class="celebration-title" id="celebration-title">Silver</h2>
+      <div class="celebration-rank" id="celebration-rank">RISING STAR</div>
+
+      <div class="celebration-badge-preview">
+        <img id="celebration-badge-img" src="" alt="Unlocked Badge" class="celebration-img" />
+      </div>
+
+      <p class="celebration-desc" id="celebration-desc">Badge description</p>
+      
+      <div class="celebration-criteria-box">
+        <span class="req-title">Unlock Criteria Achieved:</span>
+        <span class="req-val" id="celebration-req">Criteria text</span>
+      </div>
+
+      <button class="btn-celebration-claim" id="celebration-claim-btn">
+        Collect Badge &amp; Continue ✨
+      </button>
+    </div>
+  </div>
+
   <!-- 3D Badge Inspection Modal -->
   <div id="badge-modal" class="modal-backdrop" aria-hidden="true" role="dialog" aria-modal="true">
     <div class="modal-card">
