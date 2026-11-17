@@ -90,29 +90,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 🌐 Deployment Instructions
 
-### Deploy to Vercel (Recommended for Next.js)
-```bash
-cd nextjs-app
-npx vercel --prod
-```
-Or connect your GitHub repository directly in the [Vercel Dashboard](https://vercel.com).
-
-### Deploy to GitHub Pages (For Root Static Web App)
-1. Go to repository **Settings** > **Pages**.
-2. Under **Build and deployment**, select:
-   - **Source**: `Deploy from a branch`
-   - **Branch**: `main` / `/ (root)`
-3. Save. The site will be published at `https://gourishinde1489.github.io/VELOOP-Rewards-UI-UX-Design/`.
-
-### Deploy to Netlify
-- Drag and drop the repository folder into [Netlify Drop](https://app.netlify.com/drop), or run:
-  ```bash
-  npx netlify deploy --prod --dir=.
-  ```
-
----
 
 ## 📁 Repository Structure
 
