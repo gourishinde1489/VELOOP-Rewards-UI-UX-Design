@@ -1,154 +1,116 @@
-# VELOOP Rewards — Web Application
+# VELOOP Rewards — Complete Multi-Screen Web Application
 
-A responsive, high-fidelity Web3 reward experience and 10-Level 3D Achievement Badge System, faithfully recreated from the [VELOOP Reward Project Figma Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/VELoop-Reward-Project?node-id=0-1).
-
----
-
-## 🌟 Overview
-
-VELOOP Rewards is an interactive web app that gamifies user engagement through passive mining sessions, milestone-based achievements, and instant quest completion.
-
-### Key Screens & Features
-
-1. **VELOOP Mining Hero (Page 01)**:
-   - **Visual Fidelity**: Faithful recreation of Desktop Variant 06 (1440×450), Tablet (834×540), and Mobile (402×874).
-   - **Glassmorphic Control Card**: Translucent dark card with gold borders, glowing gradients, and brand typography.
-   - **Earned Balance Counter**: Displays `+38 VEs` with a 3D gold coin; clicking triggers a coin-pickup chime and particle shower.
-   - **Real-Time Mining Progress**: Dynamic golden progress bar with countdown timer (`45:20 Remaining...`).
-   - **Interactive Mining Button**: "Start Mining" toggles active mining with an animated pulsing gold glow and passive VE generation.
-   - **Holographic Quest Filmstrip**: Interactive boosters ("Watch Ads", "Play Games", "Complete Tasks", "And More") that grant instant VE rewards.
-
-2. **10-Level 3D Achievement Badge System (Page 02)**:
-   - **Overview Milestone Card**: Displays current achievement status (`1/10 Badges Unlocked`, `Bronze Tier`, `50 VEs Total`).
-   - **Milestone Progress Tracks**: Dual visual bars tracking progress toward Silver tier (VEs earned: `50 / 250` and streak: `1 / 3 days`).
-   - **Filter Controls**: Filter between `All 10 Badges`, `Unlocked Only`, and `Locked Only`.
-   - **10 Distinct 3D Badges**:
-     - **Level 01: Bronze** (FIRST STEP) — *Unlocked*
-     - **Level 02: Silver** (RISING STAR) — *Locked / Unlockable*
-     - **Level 03: Gold** (REWARD HUNTER) — *Locked / Unlockable*
-     - **Level 04: Platinum** (ELITE EARNER) — *Locked / Unlockable*
-     - **Level 05: Diamond** (HIGH ACHIEVER) — *Locked / Unlockable*
-     - **Level 06: Emerald** (REWARD MASTER) — *Locked / Unlockable*
-     - **Level 07: Sapphire** (TOP PERFORMER) — *Locked / Unlockable*
-     - **Level 08: Ruby** (ELITE) — *Locked / Unlockable*
-     - **Level 09: Master** (MASTER ACHIEVER) — *Locked / Unlockable*
-     - **Level 10: Legend** (VELOOP LEGEND) — *Locked / Unlockable*
-   - **Interactive Badge Detail Modal**: Click any badge to inspect its 3D artwork, ranking, description, and unlock criteria.
-   - **Live Lock/Unlock Simulator**: Toggle any badge to test milestone progression with victory fanfares and particle effects.
-
-3. **Audio & Visual FX**:
-   - **Web Audio API**: Built-in sound synthesis with zero external audio dependencies (coin chimes, mining hum, fanfare).
-   - **Canvas Particles**: Physics-based gold sparkle and coin shower on claim and unlock actions.
+An exact, responsive recreation of the [VELOOP Reward Project Figma Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/VELoop-Reward-Project?node-id=0-1), featuring:
+1. **Interactive Device Screen Switcher**: One-click switching between **Fluid Responsive**, **Desktop (1440×450)**, **Tablet (834×540)**, **Mobile (402×874)**, and **10-Level 3D Badges System**.
+2. **Zero-Overlap Layouts**: Fixed all component clipping and overlapping by decoupling the control card, background artwork, floating coins, and filmstrip bar.
+3. **Synchronized Reactive State**: Starting mining, claiming rewards, or completing quests updates live progress and timers across all device views in real time.
+4. **Dual Implementation**:
+   - **Root Web App** (`index.html`, `styles.css`, `app.js`): Zero build dependencies, runs immediately in any browser or with `python3 server.py`.
+   - **Next.js 14 App** (`nextjs-app/`): Full TypeScript, React 18, and Tailwind CSS implementation ready for Vercel deployment.
 
 ---
 
-## 🚀 Running the App Locally
+## 📱 Supported Figma Screens & Devices
 
-The application has zero build dependencies and runs out of the box using any static file server or browser.
+| Screen | Dimensions | Figma Frame | Description |
+|---|---|---|---|
+| **Desktop Hero** | `1440 × 450 px` | `Desktop — Hero variant 06` (59:4) | Left glassmorphic card (661px), 10 angled floating 3D coins, cybernetic background with chest (900px) |
+| **Tablet Hero** | `834 × 540 px` | `Tablet — Responsive reward landing` (271:399) | Top-left brand header, top-right "Start Mining" button, ambient glow ellipse, bottom-left stats card |
+| **Mobile Hero** | `402 × 874 px` | `Mobile — Responsive reward landing` (84:18) | Top brand card, center 3D artwork (468×455), bottom stats and mining action card |
+| **Achievement Badges** | `1512 × 2820 px` | `02 Achievement Badges` (192:37) | Milestone overview, dual progress tracks (50/250 VEs, 1/3 days), filter toolbar, 10 3D badge cards |
+| **Fluid Responsive** | Auto | Responsive Flexbox / Grid | Fluid auto-scaling layout that seamlessly adapts to any screen width from 320px to 4K |
 
-### Option 1: Python 3 (Included Server)
+---
 
+## 🚀 How to Run Locally
+
+### Option A: Root App (Instant, Zero Dependencies)
+
+Run with the included Python server:
 ```bash
-python3 server.py
-# Or on custom port:
 python3 server.py 8080
 ```
-Open [http://localhost:8080](http://localhost:8080) in your browser.
+Open **[http://localhost:8080](http://localhost:8080)** in your browser.
 
-### Option 2: Python HTTP Server
+You can also run with:
+- **Deno**: `deno run --allow-net --allow-read jsr:@std/http/file-server -p 8080`
+- **Python**: `python3 -m http.server 8080`
+- **Direct Browser**: Open [`index.html`](file:///run/media/gauri/New%20Volume/UIUX%20project/index.html) directly in any browser.
+
+---
+
+### Option B: Next.js 14 App (`nextjs-app/`)
+
+A modern Next.js 14 + React + TypeScript + Tailwind CSS application is available in the [`nextjs-app/`](file:///run/media/gauri/New%20Volume/UIUX%20project/nextjs-app/) directory.
 
 ```bash
-python3 -m http.server 8080
+cd nextjs-app
+npm install
+npm run dev
 ```
-Open [http://localhost:8080](http://localhost:8080) in your browser.
+Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
-### Option 3: Deno
-
+To build for production:
 ```bash
-deno run --allow-net --allow-read jsr:@std/http/file-server -p 8080
+npm run build
+npm run start
 ```
 
-### Option 4: Direct Browser Opening
+---
 
-Simply double-click `index.html` or open it directly in Chrome, Firefox, Safari, or Edge.
+## 🎯 Testing the Responsive Designs & Interactions
+
+1. **Switching Screens**:
+   - Use the top navigation bar to switch between:
+     - **🌐 Fluid Responsive**: Watch how elements fluidly stack without overlapping at any window width.
+     - **💻 Desktop (1440px)**: Preview the exact 1440×450 desktop frame with all 10 floating coins in their Figma coordinate positions.
+     - **📱 Tablet (834px)**: Preview the tablet frame with top-right button placement and background blur filters.
+     - **📲 Mobile (402px)**: Preview the mobile phone viewport with the center miner artwork and bottom control box.
+     - **🏆 Badges System**: Inspect all 10 3D badges with filter pills (*All*, *Unlocked*, *Locked*).
+
+2. **Interactive Controls**:
+   - **Start Mining**: Toggles live passive earning, countdown timer (`45:20 Remaining...`), and progress bar.
+   - **Earned Card (+38 VEs)**: Click to trigger a coin pickup chime and particle shower.
+   - **Quests Button**: Opens instant quest tasks (*Watch Ads*, *Miner Coin Rush*, *Daily Check-in*, *Refer a Friend*) to earn +VEs immediately.
+   - **Badge Unlock Simulator**: Click any badge's **Toggle** button to simulate unlocking/locking badges, accompanied by victory fanfares and particle bursts.
+   - **Sound Toggle**: Click 🔊 to mute/unmute synthesized Web Audio sound effects.
 
 ---
 
 ## 🌐 Deploying to Production
 
-Because the app is clean, lightweight, and static, it can be deployed to any hosting platform in seconds.
+### Vercel
+- **Root App**: `npx vercel deploy --prod` (select Root Directory `./`)
+- **Next.js App**: `cd nextjs-app && npx vercel deploy --prod`
 
-### 1. Vercel
+### Netlify
+- Drag and drop the project folder to [Netlify Drop](https://app.netlify.com/drop), or run `npx netlify deploy --prod --dir=.`
 
-```bash
-# With Vercel CLI
-npx vercel deploy --prod
-```
-Or connect your Git repository to [Vercel](https://vercel.com) and deploy with standard static defaults (Root Directory: `./`).
-
-### 2. Netlify
-
-```bash
-# With Netlify CLI
-npx netlify deploy --prod --dir=.
-```
-Or drag and drop this project directory into the [Netlify Drop](https://app.netlify.com/drop) dashboard.
-
-### 3. GitHub Pages
-
-1. Push this repository to GitHub:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial VELOOP Rewards Web App"
-   git branch -M main
-   git remote add origin <your-repo-url>
-   git push -u origin main
-   ```
-2. Go to **Settings > Pages** in your GitHub repository.
-3. Select `Branch: main`, folder `/ (root)`, and click **Save**.
-4. Your site will be published at `https://<username>.github.io/<repo>/`.
-
-### 4. Cloudflare Pages
-
-1. Log in to the Cloudflare dashboard and go to **Pages**.
-2. Select **Connect to Git** or direct upload.
-3. Set the build output directory to `./` (no build command needed).
-
-### 5. Docker (Nginx)
-
-Create a `Dockerfile`:
-```dockerfile
-FROM nginx:alpine
-COPY . /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-Build and run:
-```bash
-docker build -t veloop-rewards .
-docker run -p 8080:80 veloop-rewards
-```
+### GitHub Pages
+- Push the repository to GitHub and enable **Pages** with source set to `Branch: master` and folder `/ (root)`.
 
 ---
 
-## 📁 File Structure
+## 📁 Project Structure
 
 ```
 .
-├── index.html            # Main semantic markup with navigation, hero & badge sections
-├── styles.css            # Responsive CSS matching Desktop, Tablet & Mobile Figma specs
-├── app.js                # State management, Web Audio, canvas FX, timer & badge logic
-├── server.py             # Zero-dependency local development server
-├── deno.json             # Deno task configuration
-├── README.md             # Project documentation & deployment guide
-└── assets/               # 24 High-resolution design assets from Figma
-    ├── hero-desktop.png  # Desktop hero 3D artwork (900x450)
-    ├── hero-tablet.png   # Tablet hero 3D artwork
-    ├── hero-mobile.png   # Mobile hero 3D artwork
-    ├── coin-3d.png       # 3D VE Gold coin
-    ├── btn-gold.png      # Metallic gold pill button background
-    ├── ellipse-glow.svg  # Cyan/gold ambient glow SVG
-    ├── badge-01-bronze.png ... badge-10-legend.png (10 Unlocked Badges)
-    └── badge-02-silver-locked.png ... badge-10-legend-locked.png (9 Locked Badges)
+├── index.html            # Main semantic HTML with multi-screen switcher & responsive stages
+├── styles.css            # Custom CSS with exact Figma coordinates and fluid responsive styling
+├── app.js                # State management, Web Audio synthesis, particle canvas, and screen sync
+├── server.py             # Lightweight local development server
+├── README.md             # Documentation & deployment guide
+├── assets/               # 25 High-resolution Figma design assets
+└── nextjs-app/           # Next.js 14 App Router project
+    ├── package.json
+    ├── tsconfig.json
+    ├── tailwind.config.ts
+    ├── app/
+    │   ├── layout.tsx
+    │   ├── page.tsx      # Next.js interactive multi-screen implementation
+    │   └── globals.css
+    ├── lib/
+    │   ├── types.ts
+    │   └── soundFX.ts
+    └── public/assets/    # Bundled design assets for Next.js
 ```

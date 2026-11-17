@@ -1,25 +1,26 @@
 /**
  * VELOOP REWARDS — WEB APP CONTROLLER
  * High-fidelity interactive logic for Mining Session & 10-Level 3D Badge System
+ * Supporting Fluid, Desktop (1440x450), Tablet (834x540), and Mobile (402x874) views.
  */
 
 // ==========================================
 // 1. STATE MANAGEMENT
 // ==========================================
 const AppState = {
-  // Mining Session State
   isMining: false,
   sessionEarned: 38,
   totalVEs: 50,
   streakDays: 1,
   progressPercent: 5,
-  remainingSeconds: 45 * 60 + 20, // 45:20 from Figma
+  remainingSeconds: 45 * 60 + 20, // 45:20 Remaining...
   miningInterval: null,
   timerInterval: null,
   soundEnabled: true,
   activeFilter: 'all',
+  activeView: 'fluid',
 
-  // 10-Level 3D Achievement Badges Data
+  // 10-Level 3D Achievement Badges Data (Figma Page 02)
   badges: [
     {
       id: 1,
@@ -161,8 +162,8 @@ class SoundFX {
     const gain = this.ctx.createGain();
 
     osc.type = 'sine';
-    osc.frequency.setValueAtTime(987.77, now); // B5
-    osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.08); // E6
+    osc.frequency.setValueAtTime(987.77, now);
+    osc.frequency.exponentialRampToValueAtTime(1318.51, now + 0.08);
 
     gain.gain.setValueAtTime(0.3, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
@@ -184,8 +185,8 @@ class SoundFX {
     const gain = this.ctx.createGain();
 
     osc.type = 'triangle';
-    osc.frequency.setValueAtTime(440, now); // A4
-    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2); // A5
+    osc.frequency.setValueAtTime(440, now);
+    osc.frequency.exponentialRampToValueAtTime(880, now + 0.2);
 
     gain.gain.setValueAtTime(0.2, now);
     gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
@@ -202,7 +203,7 @@ class SoundFX {
     this.init();
     if (!this.ctx) return;
 
-    const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6
+    const notes = [523.25, 659.25, 783.99, 1046.50];
     notes.forEach((freq, idx) => {
       const now = this.ctx.currentTime + idx * 0.09;
       const osc = this.ctx.createOscillator();
@@ -272,7 +273,7 @@ class ParticleFX {
       const p = this.particles[i];
       p.x += p.vx;
       p.y += p.vy;
-      p.vy += 0.15; // gravity
+      p.vy += 0.15;
       p.alpha -= p.decay;
 
       if (p.alpha <= 0) {
@@ -321,121 +322,136 @@ function showToast(message, icon = '✨') {
 }
 
 // ==========================================
-// 5. UI CONTROLLERS & DATA BINDING
+// 5. SYNCHRONIZED MULTI-SCREEN DATA BINDING
 // ==========================================
-
-// Format seconds into MM:SS
 function formatTime(seconds) {
   const m = Math.floor(seconds / 60);
   const s = seconds % 60;
   return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
 }
 
-// Update Mining Progress & Countdown
-function updateMiningUI() {
-  const fill = document.getElementById('mining-progress-fill');
-  const text = document.getElementById('mining-progress-text');
-  const timer = document.getElementById('countdown-timer');
-  const track = document.getElementById('mining-progress-track');
+// Synchronize all progress bars, timers, and balances across ALL screens
+function syncAllUI() {
+  const timeFormatted = `${formatTime(AppState.remainingSeconds)} Remaining...`;
+  const pctFormatted = `${Math.floor(AppState.progressPercent)}%`;
+  const earnedFormatted = `+${AppState.sessionEarned} VEs`;
+  const totalFormatted = `${AppState.totalVEs} VEs`;
+  const streakFormatted = `${AppState.streakDays} Day${AppState.streakDays > 1 ? 's' : ''}`;
 
-  if (fill) fill.style.width = `${AppState.progressPercent}%`;
-  if (text) text.textContent = `${Math.floor(AppState.progressPercent)}%`;
-  if (track) track.setAttribute('aria-valuenow', Math.floor(AppState.progressPercent));
-  if (timer) timer.textContent = `${formatTime(AppState.remainingSeconds)} Remaining...`;
-}
+  // Top header balance
+  const totalHeaderVal = document.getElementById('total-ves-val');
+  if (totalHeaderVal) totalHeaderVal.textContent = totalFormatted;
 
-// Update Top Balances & Stats
-function updateStatsUI() {
-  const totalVal = document.getElementById('total-ves-val');
-  const sessionVal = document.getElementById('session-earned-val');
-  const streakVal = document.getElementById('streak-days-val');
+  // Sync all session earned pills
+  document.querySelectorAll('.shared-session-earned').forEach(el => {
+    el.textContent = earnedFormatted;
+  });
+
+  // Sync all progress fills and percentage labels
+  document.querySelectorAll('.shared-progress-fill').forEach(el => {
+    el.style.width = `${AppState.progressPercent}%`;
+  });
+  document.querySelectorAll('.shared-progress-text').forEach(el => {
+    el.textContent = pctFormatted;
+  });
+
+  // Sync all countdown timer texts
+  document.querySelectorAll('.shared-timer-text').forEach(el => {
+    el.textContent = timeFormatted;
+  });
+
+  // Sync all button states
+  document.querySelectorAll('.shared-mining-btn').forEach(btn => {
+    if (AppState.isMining) {
+      btn.classList.add('mining-active');
+      btn.setAttribute('aria-pressed', 'true');
+    } else {
+      btn.classList.remove('mining-active');
+      btn.setAttribute('aria-pressed', 'false');
+    }
+  });
+
+  document.querySelectorAll('.shared-btn-label').forEach(el => {
+    el.textContent = AppState.isMining ? 'Mining Active ⚡' : 'Start Mining';
+  });
+
+  document.querySelectorAll('.shared-status-cue').forEach(el => {
+    el.textContent = AppState.isMining 
+      ? 'Mining session in progress. Passive rewards generating...'
+      : 'Session ready. Click to activate passive VE mining.';
+  });
+
+  // Sync metrics grid
+  document.querySelectorAll('.shared-streak-days').forEach(el => {
+    el.textContent = streakFormatted;
+  });
+
+  const vesLeft = Math.max(0, 250 - AppState.totalVEs);
+  document.querySelectorAll('.shared-ves-left').forEach(el => {
+    el.textContent = vesLeft > 0 ? `${vesLeft} VEs left` : 'Silver Unlocked!';
+  });
+
+  // Milestone Banner Sync
   const bannerVes = document.getElementById('stat-total-ves');
   const bannerVesText = document.getElementById('banner-ves-progress-text');
   const bannerVesFill = document.getElementById('banner-ves-fill');
   const bannerStreakText = document.getElementById('banner-streak-progress-text');
   const bannerStreakFill = document.getElementById('banner-streak-fill');
-  const nextRewardVal = document.getElementById('next-reward-val');
 
-  if (totalVal) totalVal.textContent = `${AppState.totalVEs} VEs`;
-  if (sessionVal) sessionVal.textContent = `+${AppState.sessionEarned} VEs`;
-  if (streakVal) streakVal.textContent = `${AppState.streakDays} Day${AppState.streakDays > 1 ? 's' : ''}`;
-  if (bannerVes) bannerVes.textContent = `${AppState.totalVEs} VEs`;
-
-  // Milestone Silver requirement: 250 VEs, 3 Days
-  const silverPct = Math.min(100, (AppState.totalVEs / 250) * 100);
+  if (bannerVes) bannerVes.textContent = totalFormatted;
   if (bannerVesText) bannerVesText.textContent = `${AppState.totalVEs} / 250 VEs`;
-  if (bannerVesFill) bannerVesFill.style.width = `${silverPct}%`;
+  if (bannerVesFill) bannerVesFill.style.width = `${Math.min(100, (AppState.totalVEs / 250) * 100)}%`;
 
-  const streakPct = Math.min(100, (AppState.streakDays / 3) * 100);
   if (bannerStreakText) bannerStreakText.textContent = `${AppState.streakDays} / 3 days`;
-  if (bannerStreakFill) bannerStreakFill.style.width = `${streakPct}%`;
-
-  const vesLeft = Math.max(0, 250 - AppState.totalVEs);
-  if (nextRewardVal) nextRewardVal.textContent = vesLeft > 0 ? `${vesLeft} VEs left` : 'Unlocked!';
+  if (bannerStreakFill) bannerStreakFill.style.width = `${Math.min(100, (AppState.streakDays / 3) * 100)}%`;
 }
 
-// Toggle Mining Session
-function toggleMining() {
+// Toggle Mining State
+function toggleMining(event) {
   AppState.isMining = !AppState.isMining;
-  const btn = document.getElementById('btn-start-mining');
-  const label = document.getElementById('btn-mining-label');
-  const hint = document.getElementById('mining-status-hint');
 
   if (AppState.isMining) {
-    btn.classList.add('mining-active');
-    btn.setAttribute('aria-pressed', 'true');
-    label.textContent = 'Mining Active ⚡';
-    hint.textContent = 'Mining session in progress. Passive rewards generating...';
     sounds.playMiningStart();
-    showToast('Mining session active! Watch your VEs grow.', '⚡');
+    showToast('Mining session activated! Passive rewards generating.', '⚡');
 
-    // Button burst fx
-    const rect = btn.getBoundingClientRect();
-    if (fx) fx.burst(rect.left + rect.width / 2, rect.top + rect.height / 2, 25, '#fbbf24');
+    if (fx && event) {
+      fx.burst(event.clientX, event.clientY, 25, '#fbbf24');
+    }
 
     // Timer Interval
     AppState.timerInterval = setInterval(() => {
       if (AppState.remainingSeconds > 0) {
         AppState.remainingSeconds--;
-        // Increment progress percent smoothly up to 100%
         AppState.progressPercent = Math.min(100, AppState.progressPercent + 0.02);
-        updateMiningUI();
+        syncAllUI();
       } else {
         clearInterval(AppState.timerInterval);
       }
     }, 1000);
 
-    // Passive Earning Interval (every 4 seconds)
+    // Earning Accumulation Interval
     AppState.miningInterval = setInterval(() => {
       AppState.sessionEarned += 1;
       AppState.totalVEs += 1;
-      updateStatsUI();
-
-      // Check auto unlock for Silver badge
+      syncAllUI();
       checkMilestones();
     }, 4000);
 
   } else {
-    btn.classList.remove('mining-active');
-    btn.setAttribute('aria-pressed', 'false');
-    label.textContent = 'Resume Mining';
-    hint.textContent = 'Mining paused. Click to resume earning session.';
     clearInterval(AppState.timerInterval);
     clearInterval(AppState.miningInterval);
     showToast('Mining session paused.', '⏸️');
   }
+
+  syncAllUI();
 }
 
-// Claim Rewards Action on Earned Card
-function claimEarnedRewards(event) {
+// Claim Rewards Action
+function claimRewards(event) {
   sounds.playCoinChime();
   const reward = AppState.sessionEarned;
-  
-  if (fx && event) {
-    fx.burst(event.clientX, event.clientY, 35, '#ffd700');
-  }
-
-  showToast(`Collected +${reward} VEs from active mining!`, '💰');
+  if (fx && event) fx.burst(event.clientX, event.clientY, 35, '#ffd700');
+  showToast(`Harvested +${reward} VEs from active session!`, '💰');
 }
 
 // Check Tier Milestones & Auto-Unlock Badges
@@ -444,7 +460,7 @@ function checkMilestones() {
   if (silver && !silver.unlocked && AppState.totalVEs >= 250 && AppState.streakDays >= 3) {
     silver.unlocked = true;
     sounds.playFanfare();
-    showToast('🎉 Congratulations! You unlocked the Silver Achievement Badge!', '🏆');
+    showToast('🎉 Milestone Reached: You unlocked the Silver Achievement Badge!', '🏆');
     renderBadges();
   }
 }
@@ -495,14 +511,14 @@ function renderBadges() {
       </div>
     `;
 
-    // Click on toggle button
+    // Toggle button listener
     const toggleBtn = card.querySelector('.badge-toggle-btn');
     toggleBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       toggleBadgeLock(badge.id, e);
     });
 
-    // Click on card opens detailed inspect modal
+    // Card inspect listener
     card.addEventListener('click', () => {
       openBadgeModal(badge);
     });
@@ -516,17 +532,17 @@ function renderBadges() {
   const statCount = document.getElementById('stat-unlocked-count');
   const statCurrent = document.getElementById('stat-current-achieve');
   const headerTier = document.getElementById('header-tier-tag');
-  const activeRank = document.getElementById('active-rank-val');
 
   if (countPill) countPill.textContent = `${unlockedCount}/10`;
   if (statCount) statCount.textContent = `${unlockedCount} / 10`;
 
-  // Find highest unlocked badge
   const highest = [...AppState.badges].reverse().find(b => b.unlocked);
   if (highest) {
     if (statCurrent) statCurrent.textContent = highest.name;
     if (headerTier) headerTier.textContent = `${highest.name} Tier`;
-    if (activeRank) activeRank.textContent = `${highest.name} (${highest.level})`;
+    document.querySelectorAll('.shared-rank-tag').forEach(el => {
+      el.textContent = `${highest.name} (${highest.level})`;
+    });
   }
 }
 
@@ -547,10 +563,47 @@ function toggleBadgeLock(badgeId, event) {
   }
 
   renderBadges();
+  syncAllUI();
 }
 
 // ==========================================
-// 7. MODAL CONTROLLERS
+// 7. VIEWPORT SWITCHER CONTROLLER
+// ==========================================
+function switchView(viewName) {
+  AppState.activeView = viewName;
+
+  // Update switcher buttons
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    if (btn.dataset.view === viewName) {
+      btn.classList.add('active');
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+
+  // Show corresponding view container
+  document.querySelectorAll('.stage-view').forEach(stage => {
+    stage.classList.remove('active');
+  });
+
+  const targetMap = {
+    'fluid': 'fluid-view-container',
+    'desktop': 'desktop-view-container',
+    'tablet': 'tablet-view-container',
+    'mobile': 'mobile-view-container',
+    'badges': 'badges-view-container'
+  };
+
+  const activeStage = document.getElementById(targetMap[viewName]);
+  if (activeStage) {
+    activeStage.classList.add('active');
+  }
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ==========================================
+// 8. MODAL CONTROLLERS
 // ==========================================
 let currentModalBadge = null;
 
@@ -596,14 +649,11 @@ function closeQuestsModal() {
   modal.setAttribute('aria-hidden', 'true');
 }
 
-// ==========================================
-// 8. QUESTS & ACTIVITIES HANDLERS
-// ==========================================
 function completeQuest(rewardAmount, questName, event) {
   sounds.playCoinChime();
   AppState.totalVEs += rewardAmount;
   AppState.sessionEarned += rewardAmount;
-  updateStatsUI();
+  syncAllUI();
 
   if (fx && event) fx.burst(event.clientX, event.clientY, 30, '#34d399');
   showToast(`+${rewardAmount} VEs earned from: ${questName}!`, '🎁');
@@ -611,40 +661,32 @@ function completeQuest(rewardAmount, questName, event) {
 }
 
 // ==========================================
-// 9. INITIALIZATION & EVENT LISTENERS
+// 9. INITIALIZATION
 // ==========================================
 document.addEventListener('DOMContentLoaded', () => {
   fx = new ParticleFX('fx-canvas');
 
-  // Start Mining Button
-  const btnStartMining = document.getElementById('btn-start-mining');
-  if (btnStartMining) {
-    btnStartMining.addEventListener('click', toggleMining);
-  }
-
-  // Earned Card Claim
-  const earnedCard = document.getElementById('earned-card-btn');
-  if (earnedCard) {
-    earnedCard.addEventListener('click', claimEarnedRewards);
-  }
-
-  // Navigation Tabs Switching
-  const navTabs = document.querySelectorAll('.nav-tab');
-  navTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      const target = tab.dataset.target;
-      if (target === 'activities-modal') {
-        openQuestsModal();
-        return;
-      }
-
-      navTabs.forEach(t => t.classList.remove('active'));
-      tab.classList.add('active');
-
-      document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
-      const activeSection = document.getElementById(target);
-      if (activeSection) activeSection.classList.add('active');
+  // Viewport Switcher Listeners
+  document.querySelectorAll('.view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      switchView(btn.dataset.view);
     });
+  });
+
+  // Brand click returns to fluid view
+  const brandBtn = document.getElementById('brand-home-btn');
+  if (brandBtn) {
+    brandBtn.addEventListener('click', () => switchView('fluid'));
+  }
+
+  // Bind all Start Mining buttons across all screens
+  document.querySelectorAll('.shared-mining-btn').forEach(btn => {
+    btn.addEventListener('click', toggleMining);
+  });
+
+  // Bind all claim triggers
+  document.querySelectorAll('.btn-claim-trigger').forEach(card => {
+    card.addEventListener('click', claimRewards);
   });
 
   // Sound Toggle
@@ -658,30 +700,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Balance Pill click
-  const balancePill = document.getElementById('user-balance-pill');
-  if (balancePill) {
-    balancePill.addEventListener('click', openQuestsModal);
-  }
+  // Quests Modal open triggers
+  const btnOpenQuests = document.getElementById('btn-open-quests');
+  if (btnOpenQuests) btnOpenQuests.addEventListener('click', openQuestsModal);
 
-  // Filmstrip Item Clicks
-  const filmstripCards = document.querySelectorAll('.filmstrip-card');
-  filmstripCards.forEach(card => {
-    card.addEventListener('click', () => openQuestsModal());
+  const balancePill = document.getElementById('user-balance-pill');
+  if (balancePill) balancePill.addEventListener('click', openQuestsModal);
+
+  document.querySelectorAll('.activity-chip').forEach(chip => {
+    chip.addEventListener('click', openQuestsModal);
   });
 
-  // Badge Filter Buttons
-  const filterPills = document.querySelectorAll('.filter-pill');
-  filterPills.forEach(pill => {
+  // Badge Filters
+  document.querySelectorAll('.filter-pill').forEach(pill => {
     pill.addEventListener('click', () => {
-      filterPills.forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
       pill.classList.add('active');
       AppState.activeFilter = pill.dataset.filter;
       renderBadges();
     });
   });
 
-  // Badge Modal Close & Actions
+  // Modal Closers
   const badgeModalClose = document.getElementById('badge-modal-close');
   if (badgeModalClose) badgeModalClose.addEventListener('click', closeBadgeModal);
 
@@ -695,10 +735,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Quests Modal Close & Interactive Buttons
   const questsModalClose = document.getElementById('quests-modal-close');
   if (questsModalClose) questsModalClose.addEventListener('click', closeQuestsModal);
 
+  // Quest Action Buttons
   const btnWatchAd = document.getElementById('btn-quest-watch-ad');
   if (btnWatchAd) {
     btnWatchAd.addEventListener('click', (e) => {
@@ -740,7 +780,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Close modals on clicking backdrop
+  // Backdrop click closes modals
   window.addEventListener('click', (e) => {
     const badgeModal = document.getElementById('badge-modal');
     const questsModal = document.getElementById('quests-modal');
@@ -748,8 +788,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === questsModal) closeQuestsModal();
   });
 
-  // Initial renders
-  updateMiningUI();
-  updateStatsUI();
+  // Initial Sync
+  syncAllUI();
   renderBadges();
 });
