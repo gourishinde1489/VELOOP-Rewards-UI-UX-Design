@@ -1,23 +1,34 @@
-# VELOOP Rewards — 10-Level 3D Achievement Badges
+# VELOOP Rewards – UI/UX Design & Web Application
 
-A production-ready, fully responsive implementation of the [VELOOP Reward Project Figma Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/VELoop-Reward-Project?node-id=0-1) (Page 02 — `02 Achievement Badges` / Node `192:37`), featuring a comprehensive Web3 gamified milestone and 3D collectible badge design system.
+A premium, gamified rewards platform designed to engage users through mining activities, rewards, and a comprehensive 10-level 3D achievement badge system.
 
 ---
 
 ## 📌 Project Overview
 
-**VELOOP Rewards** is an engaging rewards and milestone tracking platform designed to motivate user progression through active mining sessions, interactive quests, and a 10-level achievement badge hierarchy.
+**VELOOP Rewards** is a modern rewards platform focused on creating an engaging and motivating user experience through interactive mining activities, achievement progression, and reward-based gamification.
 
-The design strictly follows a premium dark navy (`#161827`) and metallic gold palette, complete with:
+The design strictly follows a premium dark navy (`#161827`) and metallic gold visual identity to create a sophisticated and trustworthy experience:
 - **Milestone Overview Banner**: Dual progress tracks for VEs earned and active streak days, automatic next-badge target calculation, and real-time stats.
-- **10-Level 3D Achievement Badges**: High-fidelity 3D collectible badges from Level 01 Bronze to Level 10 Legend, supporting unlocked and locked states.
+- **10-Level 3D Achievement Badges**: High-fidelity 3D collectible badges from Level 01 Bronze to Level 10 Legend, supporting interactive unlocked and locked states.
 - **Natural Responsiveness**: Fully fluid design adapting cleanly across Large Desktop (1512px+), Standard Laptop (1024px–1280px), Tablet (640px–960px), and Mobile (< 640px) without any component overlap or artificial device frames.
 - **Interactive Audio & Visual Effects**: Web Audio API synthesized fanfares, coin collection chimes, and real-time canvas particle bursts.
-- **Instant VE Quests**: Interactive tasks (*Watch Sponsor Clip*, *Miner Coin Rush*, *Daily Check-in*, *Referral Bonus*) that immediately reward VEs and trigger milestone unlocks.
+- **Instant VE Quests**: Interactive tasks (*Watch Sponsor Clip*, *Miner Coin Rush*, *Daily Check-in*, *Referral Bonus*) that immediately reward VEs and trigger milestone unlocks in real time.
 
 ---
 
-## 🏆 10-Level 3D Badge System
+## ✨ Key Features & Highlights
+
+- **Mine & Earn**: Interactive mining rewards with coin counter, hashrate speed, and progress tracking.
+- **Responsive Layouts**: Precision layouts optimized for mobile, tablet, laptop, desktop, and large screens.
+- **10 Unique 3D Achievement Badges**: High-resolution 3D-modeled collectible badges from Bronze to Legend.
+- **Locked & Unlocked States**: Visual badge progression with toggle simulation to inspect design fidelity.
+- **Animations & Micro-interactions**: Web Audio sound effects, ambient radial glows, and particle explosions.
+- **Badge Collection UI**: Structured achievement interface showcasing user progress, current tier, and milestones.
+
+---
+
+## 🏆 10-Level 3D Badge Collection
 
 | Level | Badge Name | Rank | Unlock Requirement | Visual Asset |
 |---|---|---|---|---|
@@ -34,9 +45,7 @@ The design strictly follows a premium dark navy (`#161827`) and metallic gold pa
 
 ---
 
-## 🛠️ Dual Implementations Included
-
-This repository provides two complete, production-ready codebases:
+## 🛠️ Dual Production Implementations
 
 ### 1. Root Web App (Zero Build Dependencies)
 - **Files**: `index.html`, `styles.css`, `app.js`, `server.py`
@@ -94,8 +103,8 @@ Or connect your GitHub repository directly in the [Vercel Dashboard](https://ver
 1. Go to repository **Settings** > **Pages**.
 2. Under **Build and deployment**, select:
    - **Source**: `Deploy from a branch`
-   - **Branch**: `main` (or `master`) / `/ (root)`
-3. Save. The site will be published at `https://<username>.github.io/<repo-name>/`.
+   - **Branch**: `main` / `/ (root)`
+3. Save. The site will be published at `https://gourishinde1489.github.io/VELOOP-Rewards-UI-UX-Design/`.
 
 ### Deploy to Netlify
 - Drag and drop the repository folder into [Netlify Drop](https://app.netlify.com/drop), or run:
@@ -128,8 +137,19 @@ Or connect your GitHub repository directly in the [Vercel Dashboard](https://ver
 
 ---
 
-## 👩‍💻 Credits
+## 🔗 Figma Design & Live Project
 
-- **Design**: [VELOOP Reward Project Figma Design](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/VELoop-Reward-Project?node-id=0-1)
-- **Designer**: Gauri Santosh Shinde (UI/UX Design Intern)
-- **Implementation**: VELOOP Rewards Engineering
+**Figma – Complete Project Design & Live Link**
+
+[View VELOOP Rewards – Figma Project](https://www.figma.com/design/ozZmTU5iiidzOcHj8lcF95/VELoop-Reward-Project?m=auto&t=cddYyyrQNLuYy0pI-6)
+
+---
+
+## 👩‍💻 Designer
+
+**Gauri Santosh Shinde**  
+UI/UX Design Intern
+
+---
+
+*Designed as part of the VELOOP Rewards UI/UX Internship Project.*
